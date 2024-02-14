@@ -1,4 +1,4 @@
-import { PlayerState, VideoElementRef, VideoContainerRef } from '../types/index'; 
+import { PlayerState, VideoElementRef, VideoContainerRef } from '../types/types'; 
 
 export const togglePlay = (
   videoElement: VideoElementRef,
