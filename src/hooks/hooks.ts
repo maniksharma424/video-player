@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import {
   PlayerState,
   VideoElementRef,
@@ -7,8 +7,9 @@ import {
   UseVolumeControlProps,
   UseSeekingProps,
   UseKeyboardShortcutsProps,
-} from "../types/index";
-import { seek, togglePlay } from "@/helpers/videoPlayer";
+  Video,
+} from "../types/types";
+import { seek, togglePlay } from "@/helpers/videoHelper";
 
 export const usePlayPause = ({
   videoElement,
@@ -122,4 +123,58 @@ export const useMuteToggle = (
       videoElement.current.muted = playerState.isMuted;
     }
   }, [playerState.isMuted, videoElement]);
+};
+export const useAutoPlay = (
+  isPlaylistVideo: boolean | undefined,
+  playerState: PlayerState,
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
+) => {
+  useEffect(() => {
+    if (isPlaylistVideo) {
+      setPlayerState({
+        ...playerState,
+        isPlaying: true,
+      });
+    }
+  }, [isPlaylistVideo, playerState, setPlayerState]);
+};
+
+export const useSaveVideoProgress = (
+  currentVideo: Video | null,
+  videoElement: VideoElementRef
+) => {
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(currentVideo!.id);
+    if (savedProgress && videoElement.current) {
+      videoElement.current.currentTime = parseFloat(savedProgress);
+    }
+  }, [currentVideo, videoElement]);
+};
+
+export const useVideoEvents = (
+  currentVideo: Video | null,
+  videoElement: React.RefObject<HTMLVideoElement>
+) => {
+  const handleSaveProgress = useCallback(() => {
+    if (videoElement.current) {
+      localStorage.setItem(
+        currentVideo!.id,
+        videoElement.current.currentTime.toString()
+      );
+    }
+  }, [currentVideo, videoElement]);
+
+  useEffect(() => {
+    const video = videoElement.current;
+
+    if (video) {
+      video.addEventListener("pause", handleSaveProgress);
+      video.addEventListener("ended", handleSaveProgress);
+
+      return () => {
+        video.removeEventListener("pause", handleSaveProgress);
+        video.removeEventListener("ended", handleSaveProgress);
+      };
+    }
+  }, [currentVideo, videoElement, handleSaveProgress]);
 };
