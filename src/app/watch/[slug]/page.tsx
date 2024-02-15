@@ -18,7 +18,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="flex-1 w-full flex sm:flex-row flex-col justify-start ">
         <VideoPlayer isPlaylistVideo currentVideo={currentVideo} />
 
-        <Playlist videos={allVideos} />
+        <Playlist />
       </div>
     </div>
   );

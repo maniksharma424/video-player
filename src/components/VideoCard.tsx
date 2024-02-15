@@ -14,12 +14,10 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   return (
     <div
       onClick={(e) => {
-    
-        e.preventDefault()
-        
-        router.push(`/watch/${item.id}`)}}
+        e.preventDefault();
+        router.push(`/watch/${item.id}`);
+      }}
       className="w-full h-full  cursor-pointer"
-      // onClick={() => updateCurrentVideo(item)}
     >
       <div className="w-full h-fit flex">
         <div

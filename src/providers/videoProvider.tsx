@@ -22,8 +22,6 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({
 
   const [currentVideo, setCurrentVideo] = useState<Video | null>(playlist[0]);
 
-
-
   const updateCurrentVideo = (video: Video | null) => {
     setCurrentVideo(video);
   };

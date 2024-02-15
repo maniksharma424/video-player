@@ -7,9 +7,8 @@ import {
   UseVolumeControlProps,
   UseSeekingProps,
   UseKeyboardShortcutsProps,
-  Video,
 } from "../types/types";
-import { seek, togglePlay } from "@/helpers/videoHelper";
+
 
 export const usePlayPause = ({
   videoElement,
@@ -72,18 +71,21 @@ export const useSeeking = ({
   videoElement,
   setPlayerState,
   playerState,
+  seek,
+  togglePlay
 }: UseSeekingProps) => {
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        seek(5, videoElement, setPlayerState, playerState);
+        seek(5);
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
-        seek(-5, videoElement, setPlayerState, playerState);
+        seek(-5);
       } else if (event.key === "") {
         event.preventDefault();
-        togglePlay(videoElement, setPlayerState, playerState);
+        togglePlay();
       }
     };
 
@@ -130,7 +132,7 @@ export const useAutoPlay = (
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
 ) => {
   useEffect(() => {
-    if (isPlaylistVideo ) {
+    if (isPlaylistVideo) {
       setPlayerState({
         ...playerState,
         isPlaying: true,
@@ -138,4 +140,3 @@ export const useAutoPlay = (
     }
   }, [isPlaylistVideo, setPlayerState]);
 };
-
