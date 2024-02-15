@@ -1,88 +1,43 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { Maximize, Pause, Play, Volume1, VolumeX } from "lucide-react";
 import {
-  formatTime,
-  handleOnTimeUpdate,
-  handleVideoProgress,
-  handleVideoSpeed,
-  handleVolumeChange,
-  toggleFullscreen,
-  toggleMute,
-  togglePlay,
-} from "@/helpers/videoHelper";
-import {
-  useAutoPlay,
-  useFullscreen,
-  useMuteToggle,
-  usePlayPause,
-  useSeeking,
-  useVolumeControl,
-} from "@/hooks/hooks";
-import { PlayerState, VideoPlayerProps } from "@/types/types";
+  Maximize,
+  Pause,
+  Play,
+  SkipForward,
+  Volume1,
+  VolumeX,
+} from "lucide-react";
+
+import { useAutoPlay } from "@/hooks/hooks";
+import { VideoPlayerProps } from "@/types/types";
+import { formatTime } from "@/helpers/index";
+import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
   showControls = true,
   isPlaylistVideo,
 }) => {
-  const [playerState, setPlayerState] = useState<PlayerState>({
-    isPlaying: false,
-    progress: 0,
-    speed: 1,
-    isMuted: false,
-  });
-
-  const [volume, setVolume] = useState(1);
-  const videoElement = useRef<HTMLVideoElement>(null);
-  const videoContainer = useRef(null);
-  const [isFullscreenMode, setIsFullscreenMode] = useState(false);
-
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(currentVideo!.id);
-    if (savedProgress && videoElement.current) {
-      videoElement.current.currentTime = parseFloat(savedProgress);
-    }
-  }, [currentVideo]);
-
-  useEffect(() => {
-    const handleSaveProgress = () => {
-      if (videoElement.current) {
-        localStorage.setItem(
-          currentVideo!.id,
-          videoElement.current.currentTime.toString()
-        );
-      }
-    };
-    const video = videoElement.current;
-    if (video) {
-      video.addEventListener("timeupdate", handleSaveProgress);
-      return () => {
-        handleSaveProgress();
-        video.removeEventListener("timeupdate", handleSaveProgress);
-      };
-    }
-  }, [currentVideo]);
-
-  usePlayPause({ videoElement, playerState });
-
-  useFullscreen({ videoContainer });
-
-  useVolumeControl({ volume, setVolume, videoElement });
-
-  useSeeking({
-    videoElement,
-    setPlayerState,
+  const {
     playerState,
-  });
-
-  useMuteToggle(playerState, videoElement);
+    setPlayerState,
+    volume,
+    setVolume,
+    videoElement,
+    videoContainer,
+    currentTime,
+    duration,
+    navigateToNextVideo,
+    togglePlay,
+    toggleFullscreen,
+    handleVolumeChange,
+    handleOnTimeUpdate,
+    handleVideoProgress,
+    handleVideoSpeed,
+    toggleMute,
+  } = useVideoPlayerContext();
 
   useAutoPlay(isPlaylistVideo, playerState, setPlayerState);
-
-  const currentTime = videoElement?.current?.currentTime ?? 0;
-
-  const duration = videoElement?.current?.duration ?? 0;
 
   return (
     <div
@@ -91,10 +46,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     >
       <video
         controls={false}
-        onClick={() => togglePlay(videoElement, setPlayerState, playerState)}
-        onTimeUpdate={() =>
-          handleOnTimeUpdate(videoElement, setPlayerState, playerState)
-        }
+        onClick={() => togglePlay()}
+        onTimeUpdate={() => handleOnTimeUpdate()}
         ref={videoElement}
         src={currentVideo?.sources[0]}
       ></video>
@@ -108,57 +61,36 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             min="0"
             max="100"
             value={playerState.progress}
-            onChange={(e) =>
-              handleVideoProgress(e, videoElement, setPlayerState, playerState)
-            }
+            onChange={(e) => handleVideoProgress(e)}
           />
           <div
             className={`group-hover:opacity-100 opacity-0 w-full transition-opacity flex items-center justify-around`}
           >
-            <button
-              onClick={() =>
-                togglePlay(videoElement, setPlayerState, playerState)
-              }
-            >
+            <button onClick={() => togglePlay()}>
               {!playerState.isPlaying ? <Play /> : <Pause />}
+            </button>
+            <button onClick={() => navigateToNextVideo()}>
+              {<SkipForward />}
             </button>
             <span>
               {formatTime(currentTime)}/{formatTime(duration)}
             </span>
 
-            <button
-              className="mute-btn"
-              onClick={() => toggleMute(setPlayerState, playerState)}
-            >
+            <button className="mute-btn" onClick={() => toggleMute()}>
               {!playerState.isMuted ? <Volume1 /> : <VolumeX />}
             </button>
 
             <select
               className="velocity text-black"
               value={playerState.speed}
-              onChange={(e) =>
-                handleVideoSpeed(
-                  e.target.value,
-                  videoElement,
-                  setPlayerState,
-                  playerState
-                )
-              }
+              onChange={(e) => handleVideoSpeed(e.target.value)}
             >
               <option value="0.50">0.50x</option>
               <option value="1">1x</option>
               <option value="1.25">1.25x</option>
               <option value="2">2x</option>
             </select>
-            <button
-              onClick={() =>
-                toggleFullscreen(
-                  isFullscreenMode,
-                  videoContainer,
-                  setIsFullscreenMode
-                )
-              }
-            >
+            <button onClick={() => toggleFullscreen()}>
               <Maximize />
             </button>
             <input
@@ -167,7 +99,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               max="1"
               step="0.01"
               value={volume}
-              onChange={(e) => handleVolumeChange(e, setVolume, videoElement)}
+              onChange={(e) => handleVolumeChange(e)}
             />
           </div>
         </div>

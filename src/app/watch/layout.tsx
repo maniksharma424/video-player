@@ -1,3 +1,4 @@
+import { VideoPlayerProvider } from "@/providers/videoPlayerProvider";
 import { VideoProvider } from "@/providers/videoProvider";
 
 export default function RootLayout({
@@ -8,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <VideoProvider>{children}</VideoProvider>
+        <VideoProvider>
+          <VideoPlayerProvider>{children}</VideoPlayerProvider>
+        </VideoProvider>
       </body>
     </html>
   );

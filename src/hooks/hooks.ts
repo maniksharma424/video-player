@@ -7,9 +7,8 @@ import {
   UseVolumeControlProps,
   UseSeekingProps,
   UseKeyboardShortcutsProps,
-  Video,
 } from "../types/types";
-import { seek, togglePlay } from "@/helpers/videoHelper";
+
 
 export const usePlayPause = ({
   videoElement,
@@ -72,18 +71,21 @@ export const useSeeking = ({
   videoElement,
   setPlayerState,
   playerState,
+  seek,
+  togglePlay
 }: UseSeekingProps) => {
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        seek(5, videoElement, setPlayerState, playerState);
+        seek(5);
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
-        seek(-5, videoElement, setPlayerState, playerState);
+        seek(-5);
       } else if (event.key === "") {
         event.preventDefault();
-        togglePlay(videoElement, setPlayerState, playerState);
+        togglePlay();
       }
     };
 
@@ -136,45 +138,5 @@ export const useAutoPlay = (
         isPlaying: true,
       });
     }
-  }, [isPlaylistVideo, playerState, setPlayerState]);
-};
-
-export const useSaveVideoProgress = (
-  currentVideo: Video | null,
-  videoElement: VideoElementRef
-) => {
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(currentVideo!.id);
-    if (savedProgress && videoElement.current) {
-      videoElement.current.currentTime = parseFloat(savedProgress);
-    }
-  }, [currentVideo, videoElement]);
-};
-
-export const useVideoEvents = (
-  currentVideo: Video | null,
-  videoElement: React.RefObject<HTMLVideoElement>
-) => {
-  const handleSaveProgress = useCallback(() => {
-    if (videoElement.current) {
-      localStorage.setItem(
-        currentVideo!.id,
-        videoElement.current.currentTime.toString()
-      );
-    }
-  }, [currentVideo, videoElement]);
-
-  useEffect(() => {
-    const video = videoElement.current;
-
-    if (video) {
-      video.addEventListener("pause", handleSaveProgress);
-      video.addEventListener("ended", handleSaveProgress);
-
-      return () => {
-        video.removeEventListener("pause", handleSaveProgress);
-        video.removeEventListener("ended", handleSaveProgress);
-      };
-    }
-  }, [currentVideo, videoElement, handleSaveProgress]);
+  }, [isPlaylistVideo, setPlayerState]);
 };

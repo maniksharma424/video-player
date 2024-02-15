@@ -8,14 +8,16 @@ import { useRouter } from "next/navigation";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { description, sources, subtitle, thumb, title } = item;
-  const { updateCurrentVideo } = useVideoContext();
+
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
   return (
     <div
-      onClick={() => router.push(`/watch/${item.id}`)}
-      className="w-full h-fit p-2 cursor-pointer"
-      // onClick={() => updateCurrentVideo(item)}
+      onClick={(e) => {
+        e.preventDefault();
+        router.push(`/watch/${item.id}`);
+      }}
+      className="w-full h-full  cursor-pointer"
     >
       <div className="w-full h-fit flex">
         <div

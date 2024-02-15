@@ -3,11 +3,8 @@ import Header from "@/components/Header";
 import Playlist from "@/components/Playlist";
 import VideoPlayer from "@/components/VideoPlayer";
 import { playlist } from "@/constant";
-import {
-  Video,
-  useVideoContext,
-} from "@/providers/videoProvider";
-
+import { useVideoContext } from "@/providers/videoProvider";
+import { Video } from "@/types/types";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const currentVideo: Video | null =
@@ -19,9 +16,9 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="w-full h-screen flex flex-col px-10">
       <Header />
       <div className="flex-1 w-full flex sm:flex-row flex-col justify-start ">
-        <VideoPlayer currentVideo={currentVideo} />
+        <VideoPlayer isPlaylistVideo currentVideo={currentVideo} />
 
-        <Playlist videos={allVideos} />
+        <Playlist />
       </div>
     </div>
   );

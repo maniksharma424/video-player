@@ -1,5 +1,3 @@
-
-
 export type PlayerState = {
   isPlaying: boolean;
   progress: number;
@@ -16,7 +14,7 @@ export interface Video {
 }
 
 export type VideoElementRef = React.MutableRefObject<HTMLVideoElement | null>;
-export type VideoContainerRef = React.MutableRefObject<HTMLElement | null>;
+export type VideoContainerRef = React.MutableRefObject<HTMLDivElement | null>;
 
 export type TogglePlayProps = {
   videoElement: VideoElementRef;
@@ -90,6 +88,8 @@ export type UseSeekingProps = {
   videoElement: VideoElementRef;
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>;
   playerState: PlayerState;
+  seek: (seconds: number) => void;
+  togglePlay: () => void;
 };
 
 export type UseKeyboardShortcutsProps = {
@@ -109,4 +109,25 @@ export interface VideoPlayerProps {
   currentVideo: Video | null;
   showControls?: boolean;
   isPlaylistVideo?: boolean | undefined;
+}
+export interface VideoPlayerContextType {
+  playerState: PlayerState;
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>;
+  volume: number;
+  setVolume: React.Dispatch<React.SetStateAction<number>>;
+  isFullscreenMode: boolean;
+  setIsFullscreenMode: React.Dispatch<React.SetStateAction<boolean>>;
+  videoElement: VideoElementRef;
+  videoContainer: VideoContainerRef;
+  currentTime: number;
+  duration: number;
+  navigateToNextVideo: () => void;
+  togglePlay: () => void;
+  toggleFullscreen: () => void;
+  handleVolumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleOnTimeUpdate: () => void;
+  handleVideoProgress: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleVideoSpeed: (playBackspeed: string) => void;
+  toggleMute: () => void;
+  seek: (seconds: number) => void;
 }
