@@ -1,6 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Maximize, Pause, Play, Volume1, VolumeX } from "lucide-react";
+import {
+  Maximize,
+  Pause,
+  Play,
+  SkipForward,
+  Volume1,
+  VolumeX,
+} from "lucide-react";
 import {
   formatTime,
   handleOnTimeUpdate,
@@ -19,7 +26,9 @@ import {
   useSeeking,
   useVolumeControl,
 } from "@/hooks/hooks";
-import { PlayerState, VideoPlayerProps } from "@/types/types";
+import { PlayerState, Video, VideoPlayerProps } from "@/types/types";
+import { useRouter } from "next/navigation";
+import { useVideoContext } from "@/providers/videoProvider";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
@@ -37,7 +46,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef(null);
   const [isFullscreenMode, setIsFullscreenMode] = useState(false);
-
+  const router = useRouter();
+  const {
+    allVideos,
+  }: {
+    allVideos: Video[];
+  } = useVideoContext();
+  
   useEffect(() => {
     const savedProgress = localStorage.getItem(currentVideo!.id);
     if (savedProgress && videoElement.current) {
@@ -84,6 +99,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   const duration = videoElement?.current?.duration ?? 0;
 
+  const navigateToNextVideo = () => {
+    const currentIndex = allVideos.findIndex(
+      (video) => video.id === currentVideo?.id
+    );
+
+    if (currentIndex !== -1 && currentIndex < allVideos.length - 1) {
+      const nextVideoId = allVideos[currentIndex + 1].id;
+      router.push(`/watch/${nextVideoId}`);
+    } else {
+      router.push(`/watch/${allVideos[0]}`);
+    }
+  };
   return (
     <div
       ref={videoContainer}
@@ -121,6 +148,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               }
             >
               {!playerState.isPlaying ? <Play /> : <Pause />}
+            </button>
+            <button onClick={() => navigateToNextVideo()}>
+              {<SkipForward />}
             </button>
             <span>
               {formatTime(currentTime)}/{formatTime(duration)}

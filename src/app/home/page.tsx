@@ -3,7 +3,8 @@ import Header from "@/components/Header";
 
 import VideoCard from "@/components/VideoCard";
 
-import { Video, useVideoContext } from "@/providers/videoProvider";
+import { useVideoContext } from "@/providers/videoProvider";
+import { Video } from "@/types/types";
 
 import React from "react";
 
