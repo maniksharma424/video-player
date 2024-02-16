@@ -101,7 +101,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           <div
             className={` w-[calc(95%)] transition-opacity flex mt-2 items-center justify-between`}
           >
-            <div className="flex justify-start items-center gap-8">
+            <div className="flex justify-start items-center sm:gap-8 gap-2">
               <button onClick={() => togglePlay()}>
               {formatTime(currentTime) === formatTime(duration) ? <RotateCcw/>:
 
@@ -125,7 +125,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               <button
                 onMouseOver={() => setShowVolumeRange(true)}
                 onMouseLeave={() => setShowVolumeRange(false)}
-                className="mute-btn flex justify-start items-center gap-3"
+                className="mute-btn flex justify-start items-center sm:gap-3 gap-1"
               >
                 {!playerState.isMuted ? (
                   <Volume1 onClick={() => toggleMute()} fill="white" />
@@ -144,7 +144,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 )}
               </button>
             </div>
-            <div className="flex justify-end items-center gap-8">
+            <div className="flex justify-end items-center sm:gap-8 gap-2">
               <div className="relative cursor-pointer">
                 <Settings
                   onClick={(e) => {

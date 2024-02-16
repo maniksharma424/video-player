@@ -6,7 +6,7 @@ import { Grip } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingContainer from "./LoadingContainer";
 
-const Page: React.FC<{ videoId: string }> = ({ videoId }) => {
+const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
   const {
     allVideos,
     setAllVideos,
@@ -52,14 +52,14 @@ const Page: React.FC<{ videoId: string }> = ({ videoId }) => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col sm:pl-10">
+    <div className="w-full h-full flex flex-col">
       <div className="flex-1 w-full flex  flex-col justify-start ">
         <LoadingContainer loading={loading}>
           {allVideos.map((item, index) => {
             return (
               <div
                 key={item.id}
-                className={`my-2 ${videoId === item.id && "bg-gray-100  rounded-md"}`}
+                className={`my-2 ${currentVideoId === item.id && ""}`}
               >
                 <div
                   draggable
