@@ -17,7 +17,7 @@ const Page = () => {
       <div className="flex-1 w-full flex sm:flex-row flex-col justify-start ">
         {allVideos.map((item, index) => {
           return (
-            <div key={index}>
+            <div key={item.id}>
               <VideoCard item={item} />;
             </div>
           );

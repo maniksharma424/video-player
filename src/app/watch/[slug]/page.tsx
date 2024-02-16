@@ -23,15 +23,14 @@ export default function Page({ params }: { params: { slug: string } }) {
           <div className="flex  items-center justify-start ">
             <CircleUserRound />
             <span className="text-[16px] font-[400]  leading-8 ml-2">
-
-            {currentVideo?.subtitle}
+              {currentVideo?.subtitle}
             </span>
           </div>
           <p className="text-[14px] font-[400] text-gray-400 leading-8 ">
             {currentVideo?.description}
           </p>
         </div>
-        <div className="sm:h-[calc(100%-52px)] h-fit sm:fixed sm:mt-0 mt-5 right-0  overflow-y-auto sm:w-1/3 w-full overflow-auto pb-5 sm:pl-10">
+        <div className="sm:h-[calc(100%-52px)] h-full sm:fixed sm:mt-0 mt-5 right-0   sm:w-1/3 w-full overflow-auto pb-5 sm:pl-10">
           <p>Playlist</p>
           <Playlist currentVideoId={params.slug} />
         </div>
