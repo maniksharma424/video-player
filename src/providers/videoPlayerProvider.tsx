@@ -188,6 +188,15 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   useClickOutside(playbackRef, setShowPlaybackSpeed);
 
+  useEffect(() => {
+    videoElement?.current?.addEventListener("ended", function () {
+      setPlayerState({
+        ...playerState,
+        isPlaying: false,
+        progress:100
+      });
+    });
+  }, [videoElement]);
 
   const contextValue = {
     playerState,
@@ -215,7 +224,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     setShowPlaybackSpeed,
     playbackRef,
     isVideoLoaded,
-    setIsVideoLoaded
+    setIsVideoLoaded,
   };
 
   return (

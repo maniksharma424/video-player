@@ -6,19 +6,18 @@ import VideoPlayer from "./VideoPlayer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PreviewVideo from "./PreviewVideo";
+import { formatTime } from "@/helpers";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { description, sources, subtitle, thumb, title } = item;
 
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
-  const timeoutRef = useRef<Timeout>(); 
+  const timeoutRef = useRef<Timeout>();
 
   return (
     <div
       onClick={(e) => {
-
-        
         e.preventDefault();
         router.push(`/watch/${item.id}`);
       }}
@@ -31,19 +30,14 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
           }, 600);
         }}
         onMouseLeave={() => {
-          clearTimeout(timeoutRef.current); 
+          clearTimeout(timeoutRef.current);
           setIsHovered(false);
         }}
         id="image"
-        className="w-2/5 h-[95px] border rounded-md"
+        className="w-2/5 h-[95px] border rounded-md relative"
       >
         {isHovered ? (
-          // <VideoPlayer
-          //   isPlaylistVideo
-          //   showControls={false}
-          //   currentVideo={item}
-          // />
-          <PreviewVideo  video={item}/>
+          <PreviewVideo video={item} />
         ) : (
           <Image
             className="w-full h-full rounded-md object-cover "
@@ -53,6 +47,9 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
             alt="image"
           />
         )}
+        <span className="absolute bottom-2 right-1 text-[9px] p-1  bg-black/60 text-white font-[500] rounded-sm ">
+          {item.duration}
+        </span>
       </div>
       <div id="info" className="w-1/2 ml-2 flex flex-col justify-start">
         <p className="text-[16px] font-[500] leading-8 truncate">{title}</p>

@@ -134,17 +134,15 @@ export const useAutoPlay = (
 ) => {
   useEffect(() => {
     if (videoElement.current) {
-      if (videoElement.current.paused || videoElement.current.ended) {
-        videoElement.current.play();
-      } else {
-        videoElement.current.pause();
-      }
-      setPlayerState({
-        ...playerState,
-        isPlaying: !videoElement.current.paused,
+      videoElement.current.play().then((res) => {
+        setPlayerState({
+          ...playerState,
+          isPlaying: !videoElement?.current?.paused,
+        });
+
       });
     }
-  }, [isPlaylistVideo, setPlayerState, videoElement.current]);
+  }, [videoElement.current]);
 };
 export const useClickOutside = (
   playbackRef: PlaybackRef,
@@ -201,7 +199,7 @@ export const useVideoLoading = (
   currentVideo: Video | null
 ) => {
   useEffect(() => {
-    setIsVideoLoaded(false)
+    setIsVideoLoaded(false);
     const handleVideoLoading = () => {
       setIsVideoLoaded(true);
     };
@@ -215,5 +213,5 @@ export const useVideoLoading = (
     return () => {
       video?.removeEventListener("canplaythrough", handleVideoLoading);
     };
-  }, [videoElement, setIsVideoLoaded,currentVideo]);
+  }, [videoElement, setIsVideoLoaded, currentVideo]);
 };

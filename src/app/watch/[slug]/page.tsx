@@ -6,6 +6,7 @@ import { playlist } from "@/constant";
 import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
 
 import { Video } from "@/types/types";
+import { CircleUserRound } from "lucide-react";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const currentVideo: Video | null =
@@ -17,10 +18,17 @@ export default function Page({ params }: { params: { slug: string } }) {
       <div className="flex-1 w-full mt-2 flex sm:flex-row flex-col justify-start ">
         <div className="sm:w-2/3  w-full">
           <VideoPlayer isPlaylistVideo currentVideo={currentVideo} />
-          <p className="text-[20px] font-[500] leading-8 ">
+          <p className="text-[20px] font-[500] leading-8 mt-5 ">
             {currentVideo?.title}
           </p>
-          <p className="text-[16px] font-[400] text-gray-400 leading-8 ">
+          <div className="flex  items-center justify-start ">
+            <CircleUserRound />
+            <span className="text-[16px] font-[400]  leading-8 ml-2">
+
+            {currentVideo?.subtitle}
+            </span>
+          </div>
+          <p className="text-[14px] font-[400] text-gray-400 leading-8 ">
             {currentVideo?.description}
           </p>
         </div>
