@@ -162,31 +162,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  // useEffect(() => {
-  //   const savedProgress = localStorage.getItem(currentVideo!.id);
-  //   if (savedProgress && videoElement.current) {
-  //     videoElement.current.currentTime = parseFloat(savedProgress);
-  //   }
-  // }, [currentVideo]);
 
-  // useEffect(() => {
-  //   const handleSaveProgress = () => {
-  //     if (videoElement.current) {
-  //       localStorage.setItem(
-  //         currentVideo!.id,
-  //         videoElement.current.currentTime.toString()
-  //       );
-  //     }
-  //   };
-  //   const video = videoElement.current;
-  //   if (video) {
-  //     video.addEventListener("timeupdate", handleSaveProgress);
-  //     return () => {
-  //       handleSaveProgress();
-  //       video.removeEventListener("timeupdate", handleSaveProgress);
-  //     };
-  //   }
-  // }, [currentVideo]);
 
   usePlayPause({ videoElement, playerState });
 

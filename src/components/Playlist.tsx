@@ -68,9 +68,6 @@ const Page = () => {
                   onDragEnd={(e) => handleDragEnd(e)}
                   className="flex items-center  rounded-lg max-h-32"
                 >
-                  {/* <div className="cursor-move mr-2">
-                    <Grip />
-                  </div> */}
                   <VideoCard item={item} />
                 </div>
               </div>

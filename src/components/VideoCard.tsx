@@ -5,6 +5,7 @@ import { VideoContext, useVideoContext } from "@/providers/videoProvider";
 import VideoPlayer from "./VideoPlayer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PreviewVideo from "./PreviewVideo";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { description, sources, subtitle, thumb, title } = item;
@@ -24,7 +25,7 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
         onMouseEnter={() => {
           timeout = setTimeout(() => {
             setIsHovered(true);
-          }, 1000);
+          }, 600);
         }}
         onMouseLeave={() => {
           clearTimeout(timeout);
@@ -34,11 +35,12 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
         className="w-2/5 h-[95px] border rounded-md"
       >
         {isHovered ? (
-          <VideoPlayer
-            isPlaylistVideo
-            showControls={false}
-            currentVideo={item}
-          />
+          // <VideoPlayer
+          //   isPlaylistVideo
+          //   showControls={false}
+          //   currentVideo={item}
+          // />
+          <PreviewVideo  video={item}/>
         ) : (
           <Image
             className="w-full h-full rounded-md object-cover "

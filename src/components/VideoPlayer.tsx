@@ -54,7 +54,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         setShowPlaybackSpeed(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -156,11 +155,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
               </button>
             </div>
             <div className="flex justify-end items-center gap-8">
-              <div
-                className="relative cursor-pointer"
-                onClick={() => setShowPlaybackSpeed((n) => !n)}
-              >
-                <Settings />
+              <div className="relative cursor-pointer">
+                <Settings
+                  onClick={(e) => {
+                    setShowPlaybackSpeed((n) => !n);
+                  }}
+                />
                 {showPlaybackSpeed && (
                   <div
                     ref={playbackRef}
