@@ -137,12 +137,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 onMouseOver={() => setShowVolumeRange(true)}
                 onMouseLeave={() => setShowVolumeRange(false)}
                 className="mute-btn flex justify-start items-center gap-3"
-                onClick={() => toggleMute()}
               >
                 {!playerState.isMuted ? (
-                  <Volume1 fill="white" />
+                  <Volume1 onClick={() => toggleMute()} fill="white" />
                 ) : (
-                  <VolumeX fill="white" />
+                  <VolumeX onClick={() => toggleMute()} fill="white" />
                 )}
                 {showVolumeRange && (
                   <input
