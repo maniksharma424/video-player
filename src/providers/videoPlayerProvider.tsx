@@ -50,16 +50,17 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     allVideos: Video[];
   } = useVideoContext();
 
-  const navigateToNextVideo = () => {
-    // const currentIndex = allVideos.findIndex(
-    //   (video) => video.id === currentVideo?.id
-    // );
-    // if (currentIndex === allVideos.length - 1) {
-    //   router.push(`/watch${allVideos[0].id}`);
-    // }
-    // else if (currentIndex != -1) {
-    //   router.push(`/watch/${allVideos[currentIndex + 1].id}`);
-    // }
+  const navigateToNextVideo = (id: string | undefined) => {
+    const currentIndex = allVideos.findIndex((video) => video.id === id);
+    if (currentIndex !== -1) {
+      const nextIndex = (currentIndex + 1) % allVideos.length;
+
+      const nextVideoId = allVideos[nextIndex].id;
+
+      router.push(`/watch/${nextVideoId}`);
+    } else {
+      return;
+    }
   };
 
   const togglePlay = (): void => {
@@ -161,8 +162,6 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
       });
     }
   };
-
-
 
   usePlayPause({ videoElement, playerState });
 

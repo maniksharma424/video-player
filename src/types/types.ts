@@ -123,7 +123,7 @@ export interface VideoPlayerContextType {
   videoContainer: VideoContainerRef;
   currentTime: number;
   duration: number;
-  navigateToNextVideo: () => void;
+  navigateToNextVideo: (id:string|undefined) => void;
   togglePlay: () => void;
   toggleFullscreen: () => void;
   handleVolumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

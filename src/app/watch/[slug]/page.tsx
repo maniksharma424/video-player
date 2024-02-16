@@ -25,7 +25,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           </p>
         </div>
         <div className="sm:h-full h-fit overflow-y-auto sm:w-1/3 w-full">
-          <Playlist />
+          <Playlist videoId={params.slug} />
         </div>
       </div>
     </div>

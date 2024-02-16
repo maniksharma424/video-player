@@ -6,7 +6,7 @@ import { Grip } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingContainer from "./LoadingContainer";
 
-const Page = () => {
+const Page: React.FC<{ videoId: string }> = ({ videoId }) => {
   const {
     allVideos,
     setAllVideos,
@@ -57,7 +57,10 @@ const Page = () => {
         <LoadingContainer loading={loading}>
           {allVideos.map((item, index) => {
             return (
-              <div key={item.id} className={`my-2 `}>
+              <div
+                key={item.id}
+                className={`my-2 ${videoId === item.id && "bg-gray-200"}`}
+              >
                 <div
                   draggable
                   onDragStart={(e) => {

@@ -96,18 +96,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoElement}
         src={currentVideo?.sources[0]}
         className={`rounded-md  
-           w-full h-full
+           w-full h-full drop-shadow-md
         `}
       ></video>
 
       {showControls && (
         <div
-          className={`controls pb-2 w-full h-fit  custom-control-panel absolute  rounded-b-md bottom-0 flex  flex-col justify-between text-white items-center backdrop-blur-sm`}
+          className={`controls ${
+            playerState.isPlaying && "group-hover:opacity-100 opacity-0"
+          } pb-2 w-full h-fit  custom-control-panel absolute  rounded-b-md bottom-0 flex  flex-col justify-between text-white items-center backdrop-blur-sm  bg-black/10`}
         >
           <input
-            className={`w-[calc(95%)] ${
-              playerState.isPlaying && "group-hover:opacity-100 opacity-0"
-            }   accent-red-500`}
+            className={`w-[calc(95%)]    accent-red-500`}
             type="range"
             min="0"
             max="100"
@@ -115,9 +115,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             onChange={(e) => handleVideoProgress(e)}
           />
           <div
-            className={`${
-              playerState.isPlaying && "group-hover:opacity-100 opacity-0"
-            } w-[calc(95%)] transition-opacity flex mt-2 items-center justify-between`}
+            className={` w-[calc(95%)] transition-opacity flex mt-2 items-center justify-between`}
           >
             <div className="flex justify-start items-center gap-8">
               <button onClick={() => togglePlay()}>
@@ -127,7 +125,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                   <Pause fill="white" />
                 )}
               </button>
-              <button>{<SkipForward fill="white" />}</button>
+              <button
+              onClick={()=>{navigateToNextVideo(currentVideo?.id)}}
+              >{<SkipForward fill="white" />}</button>
               <span>
                 {formatTime(currentTime)}/{formatTime(duration)}
               </span>
