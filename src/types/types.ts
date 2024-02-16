@@ -15,12 +15,14 @@ export interface Video {
 
 export type VideoElementRef = React.MutableRefObject<HTMLVideoElement | null>;
 export type VideoContainerRef = React.MutableRefObject<HTMLDivElement | null>;
+export type PlaybackRef = React.MutableRefObject<HTMLDivElement | null>;
 
 export type TogglePlayProps = {
   videoElement: VideoElementRef;
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>;
   playerState: PlayerState;
 };
+export type Timeout = ReturnType<typeof setTimeout>;
 
 export type ToggleFullscreenProps = {
   isFullscreenMode: boolean;
@@ -121,7 +123,7 @@ export interface VideoPlayerContextType {
   videoContainer: VideoContainerRef;
   currentTime: number;
   duration: number;
-  navigateToNextVideo: () => void;
+  navigateToNextVideo: (id:string|undefined) => void;
   togglePlay: () => void;
   toggleFullscreen: () => void;
   handleVolumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -130,4 +132,12 @@ export interface VideoPlayerContextType {
   handleVideoSpeed: (playBackspeed: string) => void;
   toggleMute: () => void;
   seek: (seconds: number) => void;
+  showVolumeRange: boolean;
+  setShowVolumeRange: React.Dispatch<React.SetStateAction<boolean>>;
+  showPlaybackSpeed: boolean;
+  setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>;
+  playbackRef:PlaybackRef
+  isVideoLoaded:boolean
+  setIsVideoLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+
 }

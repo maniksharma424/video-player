@@ -1,28 +1,33 @@
 "use client";
 import {
+  Check,
   Maximize,
   Pause,
   Play,
+  Settings,
   SkipForward,
   Volume1,
   VolumeX,
 } from "lucide-react";
-
-import { useAutoPlay } from "@/hooks/hooks";
+import {
+  useAutoPlay,
+  useGetSavedProgress,
+  usePutSaveProgress,
+  useVideoLoading,
+} from "@/hooks/hooks";
 import { VideoPlayerProps } from "@/types/types";
 import { formatTime } from "@/helpers/index";
 import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
+import { PLAYBACK_SPEED } from "@/constant";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
-  showControls = true,
   isPlaylistVideo,
 }) => {
   const {
     playerState,
     setPlayerState,
     volume,
-    setVolume,
     videoElement,
     videoContainer,
     currentTime,
@@ -35,14 +40,27 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     handleVideoProgress,
     handleVideoSpeed,
     toggleMute,
+    showVolumeRange,
+    setShowVolumeRange,
+    showPlaybackSpeed,
+    setShowPlaybackSpeed,
+    playbackRef,
+    isVideoLoaded,
+    setIsVideoLoaded
   } = useVideoPlayerContext();
 
-  useAutoPlay(isPlaylistVideo, playerState, setPlayerState);
+  // useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
+
+  useGetSavedProgress(currentVideo, videoElement);
+
+  usePutSaveProgress(currentVideo, videoElement);
+  useVideoLoading(setIsVideoLoaded, videoElement,currentVideo);
+  console.log(isVideoLoaded);
 
   return (
     <div
       ref={videoContainer}
-      className="group sm:w-2/3 w-full border h-fit max-w-[1000px] relative"
+      className={`group w-full  h-fit max-w-[1000px] relative`}
     >
       <video
         controls={false}
@@ -50,13 +68,28 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         onTimeUpdate={() => handleOnTimeUpdate()}
         ref={videoElement}
         src={currentVideo?.sources[0]}
+        className={`rounded-md  
+           drop-shadow-md ${
+             isVideoLoaded ? "visible  w-full h-full" : "invisible h-0 w-0 "
+           }
+        `}
       ></video>
-      {showControls && (
+      <div
+        className={` rounded-md bg-black flex justify-center items-center ${
+          isVideoLoaded ? "hidden" : "sm:h-[500px] h-[255px] w-full"
+        }`}
+      >
+        <div className="w-10 h-10 border-2  border-red-500 border-t-white animate-spin rounded-full"></div>
+      </div>
+
+      {isVideoLoaded && (
         <div
-          className={`controls w-full h-fit  custom-control-panel absolute hover:border bottom-0 flex  flex-col justify-between text-white items-center`}
+          className={`controls ${
+            playerState.isPlaying && "group-hover:opacity-100 opacity-0"
+          } pb-2 w-full h-fit  custom-control-panel absolute  rounded-b-md bottom-0 flex  flex-col justify-between text-white items-center backdrop-blur-sm  bg-black/10`}
         >
           <input
-            className="w-full group-hover:opacity-100 opacity-0"
+            className={`w-[calc(95%)]    accent-red-500`}
             type="range"
             min="0"
             max="100"
@@ -64,43 +97,83 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             onChange={(e) => handleVideoProgress(e)}
           />
           <div
-            className={`group-hover:opacity-100 opacity-0 w-full transition-opacity flex items-center justify-around`}
+            className={` w-[calc(95%)] transition-opacity flex mt-2 items-center justify-between`}
           >
-            <button onClick={() => togglePlay()}>
-              {!playerState.isPlaying ? <Play /> : <Pause />}
-            </button>
-            <button onClick={() => navigateToNextVideo()}>
-              {<SkipForward />}
-            </button>
-            <span>
-              {formatTime(currentTime)}/{formatTime(duration)}
-            </span>
+            <div className="flex justify-start items-center gap-8">
+              <button onClick={() => togglePlay()}>
+                {!playerState.isPlaying ? (
+                  <Play fill="white" />
+                ) : (
+                  <Pause fill="white" />
+                )}
+              </button>
+              <button
+                onClick={() => {
+                  navigateToNextVideo(currentVideo?.id);
+                }}
+              >
+                {<SkipForward fill="white" />}
+              </button>
+              <span>
+                {formatTime(currentTime)}/{formatTime(duration)}
+              </span>
 
-            <button className="mute-btn" onClick={() => toggleMute()}>
-              {!playerState.isMuted ? <Volume1 /> : <VolumeX />}
-            </button>
-
-            <select
-              className="velocity text-black"
-              value={playerState.speed}
-              onChange={(e) => handleVideoSpeed(e.target.value)}
-            >
-              <option value="0.50">0.50x</option>
-              <option value="1">1x</option>
-              <option value="1.25">1.25x</option>
-              <option value="2">2x</option>
-            </select>
-            <button onClick={() => toggleFullscreen()}>
-              <Maximize />
-            </button>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => handleVolumeChange(e)}
-            />
+              <button
+                onMouseOver={() => setShowVolumeRange(true)}
+                onMouseLeave={() => setShowVolumeRange(false)}
+                className="mute-btn flex justify-start items-center gap-3"
+              >
+                {!playerState.isMuted ? (
+                  <Volume1 onClick={() => toggleMute()} fill="white" />
+                ) : (
+                  <VolumeX onClick={() => toggleMute()} fill="white" />
+                )}
+                {showVolumeRange && (
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={volume}
+                    onChange={(e) => handleVolumeChange(e)}
+                  />
+                )}
+              </button>
+            </div>
+            <div className="flex justify-end items-center gap-8">
+              <div className="relative cursor-pointer">
+                <Settings
+                  onClick={(e) => {
+                    setShowPlaybackSpeed((n) => !n);
+                  }}
+                />
+                {showPlaybackSpeed && (
+                  <div
+                    ref={playbackRef}
+                    className="velocity absolute min-w-fit h-fit p-3 bottom-12 right-[-20px] bg-black/70 rounded-md shadow-sm text-white"
+                  >
+                    <p className="border-b border-b-gray-100 pb-2">
+                      PlaybackSpeed
+                    </p>
+                    {PLAYBACK_SPEED.map((speed) => (
+                      <p
+                        key={speed.value}
+                        onClick={(e) => handleVideoSpeed(speed.value)}
+                        className="mt-2 flex items-center justify-between"
+                      >
+                        {speed.label}{" "}
+                        {playerState.speed.toString() === speed.value && (
+                          <Check />
+                        )}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button onClick={() => toggleFullscreen()}>
+                <Maximize />
+              </button>
+            </div>
           </div>
         </div>
       )}

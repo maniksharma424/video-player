@@ -6,14 +6,15 @@ import { Grip } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingContainer from "./LoadingContainer";
 
-const Page = () => {
-  const [loading, setIsLoading] = useState(true);
+const Page: React.FC<{ videoId: string }> = ({ videoId }) => {
   const {
     allVideos,
     setAllVideos,
+    loading,
   }: {
     allVideos: Video[];
     setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>;
+    loading: boolean;
   } = useVideoContext();
 
   const dragItem = useRef<number>(0);
@@ -50,30 +51,16 @@ const Page = () => {
     localStorage.setItem("videoOrder", JSON.stringify(videoOrder));
   };
 
-  useEffect(() => {
-    const getSavedVideoOrder = () => {
-      const savedOrder = localStorage.getItem("videoOrder");
-      return savedOrder ? JSON.parse(savedOrder) : null;
-    };
-
-    const savedVideoOrder = getSavedVideoOrder();
-
-    if (savedVideoOrder) {
-      const reorderedVideos = savedVideoOrder.map((id:string) =>
-        allVideos.find((video) => video.id === id)
-      );
-      setAllVideos(reorderedVideos);
-    }
-    setIsLoading(false);
-  }, []);
-
   return (
-    <div className="w-full h-screen flex flex-col px-10">
+    <div className="w-full h-screen flex flex-col sm:pl-10">
       <div className="flex-1 w-full flex  flex-col justify-start ">
         <LoadingContainer loading={loading}>
           {allVideos.map((item, index) => {
             return (
-              <div key={item.id}>
+              <div
+                key={item.id}
+                className={`my-2 ${videoId === item.id && "bg-gray-200"}`}
+              >
                 <div
                   draggable
                   onDragStart={(e) => {
@@ -82,17 +69,9 @@ const Page = () => {
                   onDragEnter={() => (draggedOverItem.current = index)}
                   onDragOver={(e) => handleDragOver(e)}
                   onDragEnd={(e) => handleDragEnd(e)}
-                  className="flex items-center p-4 border border-gray-200 rounded-lg"
+                  className="flex items-center  rounded-lg max-h-32"
                 >
-                  <div className="cursor-move mr-2">
-                    <Grip />
-                  </div>
-
-                  <div className="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg"></div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-semibold">{item.title}</h3>
-                    <p className="text-gray-500">{item.description}</p>
-                  </div>
+                  <VideoCard item={item} />
                 </div>
               </div>
             );

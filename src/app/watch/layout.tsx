@@ -7,12 +7,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+
+
         <VideoProvider>
           <VideoPlayerProvider>{children}</VideoPlayerProvider>
         </VideoProvider>
-      </body>
-    </html>
+
+
   );
 }

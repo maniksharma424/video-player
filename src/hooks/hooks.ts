@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import {
   PlayerState,
   VideoElementRef,
@@ -7,8 +7,9 @@ import {
   UseVolumeControlProps,
   UseSeekingProps,
   UseKeyboardShortcutsProps,
+  PlaybackRef,
+  Video,
 } from "../types/types";
-
 
 export const usePlayPause = ({
   videoElement,
@@ -72,9 +73,8 @@ export const useSeeking = ({
   setPlayerState,
   playerState,
   seek,
-  togglePlay
+  togglePlay,
 }: UseSeekingProps) => {
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
@@ -129,14 +129,91 @@ export const useMuteToggle = (
 export const useAutoPlay = (
   isPlaylistVideo: boolean | undefined,
   playerState: PlayerState,
-  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>,
+  videoElement: VideoElementRef
 ) => {
   useEffect(() => {
-    if (isPlaylistVideo) {
+    if (videoElement.current) {
+      if (videoElement.current.paused || videoElement.current.ended) {
+        videoElement.current.play();
+      } else {
+        videoElement.current.pause();
+      }
       setPlayerState({
         ...playerState,
-        isPlaying: true,
+        isPlaying: !videoElement.current.paused,
       });
     }
-  }, [isPlaylistVideo, setPlayerState]);
+  }, [isPlaylistVideo, setPlayerState, videoElement.current]);
+};
+export const useClickOutside = (
+  playbackRef: PlaybackRef,
+  setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (playbackRef.current && !playbackRef.current.contains(event.target)) {
+        setShowPlaybackSpeed(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [playbackRef, setShowPlaybackSpeed]);
+};
+export const useGetSavedProgress = (
+  currentVideo: Video | null,
+  videoElement: VideoElementRef
+) => {
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(currentVideo!.id);
+    if (savedProgress && videoElement.current) {
+      videoElement.current.currentTime = parseFloat(savedProgress);
+    }
+  }, [currentVideo, videoElement]);
+};
+export const usePutSaveProgress = (
+  currentVideo: Video | null,
+  videoElement: VideoElementRef
+) => {
+  useEffect(() => {
+    const handleSaveProgress = () => {
+      if (videoElement.current) {
+        localStorage.setItem(
+          currentVideo!.id,
+          videoElement.current.currentTime.toString()
+        );
+      }
+    };
+    const video = videoElement.current;
+    if (video) {
+      video.addEventListener("timeupdate", handleSaveProgress);
+      return () => {
+        video.removeEventListener("timeupdate", handleSaveProgress);
+      };
+    }
+  }, [currentVideo, videoElement]);
+};
+export const useVideoLoading = (
+  setIsVideoLoaded: React.Dispatch<React.SetStateAction<boolean>>,
+  videoElement: VideoElementRef,
+  currentVideo: Video | null
+) => {
+  useEffect(() => {
+    setIsVideoLoaded(false)
+    const handleVideoLoading = () => {
+      setIsVideoLoaded(true);
+    };
+    if (videoElement.current) {
+      videoElement.current.addEventListener(
+        "canplaythrough",
+        handleVideoLoading
+      );
+    }
+    const video = videoElement.current;
+    return () => {
+      video?.removeEventListener("canplaythrough", handleVideoLoading);
+    };
+  }, [videoElement, setIsVideoLoaded,currentVideo]);
 };

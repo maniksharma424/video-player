@@ -1,6 +1,11 @@
 "use client";
 
-import { PlayerState, Video, VideoPlayerContextType } from "@/types/types";
+import {
+  PlaybackRef,
+  PlayerState,
+  Video,
+  VideoPlayerContextType,
+} from "@/types/types";
 import React, {
   createContext,
   useState,
@@ -12,10 +17,12 @@ import React, {
 import { useVideoContext } from "./videoProvider";
 import { useRouter } from "next/navigation";
 import {
+  useClickOutside,
   useFullscreen,
   useMuteToggle,
   usePlayPause,
   useSeeking,
+  useVideoLoading,
   useVolumeControl,
 } from "@/hooks/hooks";
 
@@ -34,8 +41,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [volume, setVolume] = useState(1);
   const [isFullscreenMode, setIsFullscreenMode] = useState(false);
+  const [showVolumeRange, setShowVolumeRange] = useState(false);
+  const [showPlaybackSpeed, setShowPlaybackSpeed] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
+  const playbackRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const currentTime = videoElement?.current?.currentTime ?? 0;
 
@@ -43,23 +54,20 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   const {
     allVideos,
-    currentVideo,
   }: {
     allVideos: Video[];
-    currentVideo: Video | null;
   } = useVideoContext();
 
-  const navigateToNextVideo = () => {
-    const currentIndex = allVideos.findIndex(
-      (video) => video.id === currentVideo?.id
-    );
-    if (currentIndex !== -1 && currentIndex < allVideos.length - 1) {
-      const nextVideoId = allVideos[currentIndex + 1].id;
+  const navigateToNextVideo = (id: string | undefined) => {
+    const currentIndex = allVideos.findIndex((video) => video.id === id);
+    if (currentIndex !== -1) {
+      const nextIndex = (currentIndex + 1) % allVideos.length;
+
+      const nextVideoId = allVideos[nextIndex].id;
+
       router.push(`/watch/${nextVideoId}`);
     } else {
-      console.log("hii");
-
-      router.push(`/watch/${allVideos[0].id}`);
+      return;
     }
   };
 
@@ -134,6 +142,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const toggleMute = (): void => {
+    if (!playerState.isMuted) {
+      setVolume(0);
+    }
+    if (playerState.isMuted) {
+      setVolume(1);
+    }
     setPlayerState({
       ...playerState,
       isMuted: !playerState.isMuted,
@@ -156,31 +170,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
       });
     }
   };
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(currentVideo!.id);
-    if (savedProgress && videoElement.current) {
-      videoElement.current.currentTime = parseFloat(savedProgress);
-    }
-  }, [currentVideo]);
 
-  useEffect(() => {
-    const handleSaveProgress = () => {
-      if (videoElement.current) {
-        localStorage.setItem(
-          currentVideo!.id,
-          videoElement.current.currentTime.toString()
-        );
-      }
-    };
-    const video = videoElement.current;
-    if (video) {
-      video.addEventListener("timeupdate", handleSaveProgress);
-      return () => {
-        handleSaveProgress();
-        video.removeEventListener("timeupdate", handleSaveProgress);
-      };
-    }
-  }, [currentVideo]);
   usePlayPause({ videoElement, playerState });
 
   useFullscreen({ videoContainer });
@@ -192,9 +182,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     setPlayerState,
     playerState,
     seek,
-    togglePlay
+    togglePlay,
   });
   useMuteToggle(playerState, videoElement);
+
+  useClickOutside(playbackRef, setShowPlaybackSpeed);
+
 
   const contextValue = {
     playerState,
@@ -211,12 +204,18 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     togglePlay,
     toggleFullscreen,
     handleVolumeChange,
-
     handleOnTimeUpdate,
     handleVideoProgress,
     handleVideoSpeed,
     toggleMute,
     seek,
+    showVolumeRange,
+    setShowVolumeRange,
+    showPlaybackSpeed,
+    setShowPlaybackSpeed,
+    playbackRef,
+    isVideoLoaded,
+    setIsVideoLoaded
   };
 
   return (
