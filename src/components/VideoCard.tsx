@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Timeout, videoCard } from "@/types/types";
 import Image from "next/image";
 import { VideoContext, useVideoContext } from "@/providers/videoProvider";
@@ -12,10 +12,13 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
 
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
-  let timeout: Timeout;
+  const timeoutRef = useRef<Timeout>(); 
+
   return (
     <div
       onClick={(e) => {
+
+        
         e.preventDefault();
         router.push(`/watch/${item.id}`);
       }}
@@ -23,12 +26,12 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
     >
       <div
         onMouseEnter={() => {
-          timeout = setTimeout(() => {
+          timeoutRef.current = setTimeout(() => {
             setIsHovered(true);
           }, 600);
         }}
         onMouseLeave={() => {
-          clearTimeout(timeout);
+          clearTimeout(timeoutRef.current); 
           setIsHovered(false);
         }}
         id="image"

@@ -10,7 +10,11 @@ import {
   VolumeX,
 } from "lucide-react";
 
-import { useAutoPlay } from "@/hooks/hooks";
+import {
+  useAutoPlay,
+  useGetSavedProgress,
+  usePutSaveProgress,
+} from "@/hooks/hooks";
 import { VideoPlayerProps } from "@/types/types";
 import { formatTime } from "@/helpers/index";
 import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
@@ -44,46 +48,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     setShowVolumeRange,
     showPlaybackSpeed,
     setShowPlaybackSpeed,
+    playbackRef,
   } = useVideoPlayerContext();
 
   useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
-  const playbackRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    function handleClickOutside(event: any) {
-      if (playbackRef.current && !playbackRef.current.contains(event.target)) {
-        setShowPlaybackSpeed(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [playbackRef, setShowPlaybackSpeed]);
 
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(currentVideo!.id);
-    if (savedProgress && videoElement.current) {
-      videoElement.current.currentTime = parseFloat(savedProgress);
-    }
-  }, [currentVideo, videoElement]);
+  useGetSavedProgress(currentVideo, videoElement);
+  
+  usePutSaveProgress(currentVideo, videoElement);
 
-  useEffect(() => {
-    const handleSaveProgress = () => {
-      if (videoElement.current) {
-        localStorage.setItem(
-          currentVideo!.id,
-          videoElement.current.currentTime.toString()
-        );
-      }
-    };
-    const video = videoElement.current;
-    if (video) {
-      video.addEventListener("timeupdate", handleSaveProgress);
-      return () => {
-        video.removeEventListener("timeupdate", handleSaveProgress);
-      };
-    }
-  }, [currentVideo, videoElement]);
   return (
     <div
       ref={videoContainer}
@@ -126,8 +99,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 )}
               </button>
               <button
-              onClick={()=>{navigateToNextVideo(currentVideo?.id)}}
-              >{<SkipForward fill="white" />}</button>
+                onClick={() => {
+                  navigateToNextVideo(currentVideo?.id);
+                }}
+              >
+                {<SkipForward fill="white" />}
+              </button>
               <span>
                 {formatTime(currentTime)}/{formatTime(duration)}
               </span>

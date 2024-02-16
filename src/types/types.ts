@@ -15,7 +15,7 @@ export interface Video {
 
 export type VideoElementRef = React.MutableRefObject<HTMLVideoElement | null>;
 export type VideoContainerRef = React.MutableRefObject<HTMLDivElement | null>;
-export type playbackRef = React.MutableRefObject<HTMLDivElement | null>;
+export type PlaybackRef = React.MutableRefObject<HTMLDivElement | null>;
 
 export type TogglePlayProps = {
   videoElement: VideoElementRef;
@@ -136,5 +136,6 @@ export interface VideoPlayerContextType {
   setShowVolumeRange: React.Dispatch<React.SetStateAction<boolean>>;
   showPlaybackSpeed: boolean;
   setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>;
+  playbackRef:PlaybackRef
 
 }

@@ -46,7 +46,9 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({
       setAllVideos(reorderedVideos);
     }
     setIsLoading(false);
-  }, []);
+  },[]);
+
+  
 
   return (
     <VideoContext.Provider value={contextValue}>

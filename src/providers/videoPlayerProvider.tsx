@@ -1,6 +1,11 @@
 "use client";
 
-import { PlayerState, Video, VideoPlayerContextType } from "@/types/types";
+import {
+  PlaybackRef,
+  PlayerState,
+  Video,
+  VideoPlayerContextType,
+} from "@/types/types";
 import React, {
   createContext,
   useState,
@@ -12,6 +17,7 @@ import React, {
 import { useVideoContext } from "./videoProvider";
 import { useRouter } from "next/navigation";
 import {
+  useClickOutside,
   useFullscreen,
   useMuteToggle,
   usePlayPause,
@@ -39,6 +45,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
+  const playbackRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const currentTime = videoElement?.current?.currentTime ?? 0;
 
@@ -178,6 +185,9 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   });
   useMuteToggle(playerState, videoElement);
 
+  useClickOutside(playbackRef, setShowPlaybackSpeed);
+
+  
   const contextValue = {
     playerState,
     setPlayerState,
@@ -202,6 +212,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     setShowVolumeRange,
     showPlaybackSpeed,
     setShowPlaybackSpeed,
+    playbackRef,
   };
 
   return (
