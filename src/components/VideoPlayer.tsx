@@ -89,7 +89,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           } pb-2 w-full h-fit  custom-control-panel absolute  rounded-b-md bottom-0 flex  flex-col justify-between text-white items-center backdrop-blur-sm  bg-black/10`}
         >
           <input
-            className={`w-[calc(95%)]    accent-red-500`}
+            className={`w-full    accent-red-500`}
             type="range"
             min="0"
             max="100"

@@ -59,7 +59,6 @@ export const useVolumeControl = ({
         }
       }
     };
-
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -83,7 +82,7 @@ export const useSeeking = ({
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
         seek(-5);
-      } else if (event.key === "") {
+      } else if (event.key === " ") {
         event.preventDefault();
         togglePlay();
       }

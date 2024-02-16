@@ -28,16 +28,16 @@ video::-webkit-media-controls-panel {
     }
     
     input[type='range']::-webkit-slider-runnable-track {
-      height: 10px;
+      height: 6px;
       -webkit-appearance: none;
       color: #080909;
       margin-top: -1px;
     }
     
     input[type='range']::-webkit-slider-thumb {
-      width: 10px;
+      width: 6px;
       -webkit-appearance: none;
-      height: 10px;
+      height: 6px;
       cursor: pointer;
       background: #ffffff;
       box-shadow: -1000px 0px 0px 1000px #c22828;
