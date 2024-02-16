@@ -57,7 +57,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   usePutSaveProgress(currentVideo, videoElement);
   useVideoLoading(setIsVideoLoaded, videoElement,currentVideo);
 
-console.log( playerState.isPlaying);
+
 
   return (
     <div

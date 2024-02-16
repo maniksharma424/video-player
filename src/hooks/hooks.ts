@@ -139,26 +139,25 @@ export const useAutoPlay = (
           ...playerState,
           isPlaying: !videoElement?.current?.paused,
         });
-
       });
     }
   }, [videoElement.current]);
 };
 export const useClickOutside = (
-  playbackRef: PlaybackRef,
-  setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>
+  elementRef: PlaybackRef,
+  setState: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   useEffect(() => {
     function handleClickOutside(event: any) {
-      if (playbackRef.current && !playbackRef.current.contains(event.target)) {
-        setShowPlaybackSpeed(false);
+      if (elementRef.current && !elementRef.current.contains(event.target)) {
+        setState(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [playbackRef, setShowPlaybackSpeed]);
+  }, [elementRef, setState]);
 };
 export const useGetSavedProgress = (
   currentVideo: Video | null,
