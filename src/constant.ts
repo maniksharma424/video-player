@@ -154,3 +154,11 @@ export const playlist = [
     title: "What care can you get for a grand?",
   },
 ];
+
+
+export const PLAYBACK_SPEED = [
+  { value: "0.5", label: "0.50" },
+  { value: "1", label: "Normal" },
+  { value: "1.25", label: "1.25" },
+  { value: "2", label: "2" }
+];

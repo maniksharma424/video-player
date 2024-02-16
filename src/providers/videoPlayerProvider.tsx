@@ -34,6 +34,9 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   });
   const [volume, setVolume] = useState(1);
   const [isFullscreenMode, setIsFullscreenMode] = useState(false);
+  const [showVolumeRange, setShowVolumeRange] = useState(false);
+  const [showPlaybackSpeed, setShowPlaybackSpeed] = useState(false);
+
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -43,24 +46,20 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   const {
     allVideos,
-    currentVideo,
   }: {
     allVideos: Video[];
-    currentVideo: Video | null;
   } = useVideoContext();
 
   const navigateToNextVideo = () => {
-    const currentIndex = allVideos.findIndex(
-      (video) => video.id === currentVideo?.id
-    );
-    if (currentIndex !== -1 && currentIndex < allVideos.length - 1) {
-      const nextVideoId = allVideos[currentIndex + 1].id;
-      router.push(`/watch/${nextVideoId}`);
-    } else {
-      console.log("hii");
-
-      router.push(`/watch/${allVideos[0].id}`);
-    }
+    // const currentIndex = allVideos.findIndex(
+    //   (video) => video.id === currentVideo?.id
+    // );
+    // if (currentIndex === allVideos.length - 1) {
+    //   router.push(`/watch${allVideos[0].id}`);
+    // }
+    // else if (currentIndex != -1) {
+    //   router.push(`/watch/${allVideos[currentIndex + 1].id}`);
+    // }
   };
 
   const togglePlay = (): void => {
@@ -134,6 +133,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const toggleMute = (): void => {
+    if (!playerState.isMuted) {
+      setVolume(0);
+    }
+    if (playerState.isMuted) {
+      setVolume(1);
+    }
     setPlayerState({
       ...playerState,
       isMuted: !playerState.isMuted,
@@ -156,31 +161,33 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
       });
     }
   };
-  useEffect(() => {
-    const savedProgress = localStorage.getItem(currentVideo!.id);
-    if (savedProgress && videoElement.current) {
-      videoElement.current.currentTime = parseFloat(savedProgress);
-    }
-  }, [currentVideo]);
 
-  useEffect(() => {
-    const handleSaveProgress = () => {
-      if (videoElement.current) {
-        localStorage.setItem(
-          currentVideo!.id,
-          videoElement.current.currentTime.toString()
-        );
-      }
-    };
-    const video = videoElement.current;
-    if (video) {
-      video.addEventListener("timeupdate", handleSaveProgress);
-      return () => {
-        handleSaveProgress();
-        video.removeEventListener("timeupdate", handleSaveProgress);
-      };
-    }
-  }, [currentVideo]);
+  // useEffect(() => {
+  //   const savedProgress = localStorage.getItem(currentVideo!.id);
+  //   if (savedProgress && videoElement.current) {
+  //     videoElement.current.currentTime = parseFloat(savedProgress);
+  //   }
+  // }, [currentVideo]);
+
+  // useEffect(() => {
+  //   const handleSaveProgress = () => {
+  //     if (videoElement.current) {
+  //       localStorage.setItem(
+  //         currentVideo!.id,
+  //         videoElement.current.currentTime.toString()
+  //       );
+  //     }
+  //   };
+  //   const video = videoElement.current;
+  //   if (video) {
+  //     video.addEventListener("timeupdate", handleSaveProgress);
+  //     return () => {
+  //       handleSaveProgress();
+  //       video.removeEventListener("timeupdate", handleSaveProgress);
+  //     };
+  //   }
+  // }, [currentVideo]);
+
   usePlayPause({ videoElement, playerState });
 
   useFullscreen({ videoContainer });
@@ -192,7 +199,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     setPlayerState,
     playerState,
     seek,
-    togglePlay
+    togglePlay,
   });
   useMuteToggle(playerState, videoElement);
 
@@ -211,12 +218,15 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     togglePlay,
     toggleFullscreen,
     handleVolumeChange,
-
     handleOnTimeUpdate,
     handleVideoProgress,
     handleVideoSpeed,
     toggleMute,
     seek,
+    showVolumeRange,
+    setShowVolumeRange,
+    showPlaybackSpeed,
+    setShowPlaybackSpeed,
   };
 
   return (

@@ -9,7 +9,6 @@ import {
   UseKeyboardShortcutsProps,
 } from "../types/types";
 
-
 export const usePlayPause = ({
   videoElement,
   playerState,
@@ -72,9 +71,8 @@ export const useSeeking = ({
   setPlayerState,
   playerState,
   seek,
-  togglePlay
+  togglePlay,
 }: UseSeekingProps) => {
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
@@ -129,14 +127,20 @@ export const useMuteToggle = (
 export const useAutoPlay = (
   isPlaylistVideo: boolean | undefined,
   playerState: PlayerState,
-  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>,
+  videoElement: VideoElementRef
 ) => {
   useEffect(() => {
-    if (isPlaylistVideo) {
+    if (videoElement.current) {
+      if (videoElement.current.paused || videoElement.current.ended) {
+        videoElement.current.play();
+      } else {
+        videoElement.current.pause();
+      }
       setPlayerState({
         ...playerState,
-        isPlaying: true,
+        isPlaying: !videoElement.current.paused,
       });
     }
-  }, [isPlaylistVideo, setPlayerState]);
+  }, [isPlaylistVideo, setPlayerState, videoElement.current]);
 };

@@ -3,12 +3,10 @@ import { playlist } from "@/constant";
 import { Video } from "@/types/types";
 import React, { createContext, useState, ReactNode, useContext } from "react";
 
-
 export interface VideoContextType {
   allVideos: Video[];
-  currentVideo: Video | null;
-  updateCurrentVideo: (video: Video | null) => void;
-  setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>; 
+
+  setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>;
 }
 
 export const VideoContext = createContext<VideoContextType | undefined>(
@@ -20,17 +18,10 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [allVideos, setAllVideos] = useState<Video[]>(playlist);
 
-  const [currentVideo, setCurrentVideo] = useState<Video | null>(playlist[0]);
-
-  const updateCurrentVideo = (video: Video | null) => {
-    setCurrentVideo(video);
-  };
-
   const contextValue: VideoContextType = {
     allVideos,
-    currentVideo,
-    updateCurrentVideo,
-    setAllVideos
+
+    setAllVideos,
   };
 
   return (
