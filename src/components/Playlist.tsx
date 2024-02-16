@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import VideoCard from "@/components/VideoCard";
 import { useVideoContext } from "@/providers/videoProvider";
 import { Video } from "@/types/types";
-import { Grip } from "lucide-react";
+import { Grip, GripVertical } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingContainer from "./LoadingContainer";
 
@@ -59,7 +59,7 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
             return (
               <div
                 key={item.id}
-                className={`my-2 ${currentVideoId === item.id && ""}`}
+                className={`my-2 ${currentVideoId === item.id && "hidden"}`}
               >
                 <div
                   draggable
@@ -71,6 +71,7 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
                   onDragEnd={(e) => handleDragEnd(e)}
                   className="flex items-center  rounded-lg max-h-32"
                 >
+                  <GripVertical className=" text-gray-500 cursor-grab"/>
                   <VideoCard item={item} />
                 </div>
               </div>

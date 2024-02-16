@@ -200,7 +200,9 @@ export const useVideoLoading = (
   useEffect(() => {
     setIsVideoLoaded(false);
     const handleVideoLoading = () => {
-      setIsVideoLoaded(true);
+      setTimeout(() => {
+        setIsVideoLoaded(true);
+      }, 200);
     };
     if (videoElement.current) {
       videoElement.current.addEventListener(

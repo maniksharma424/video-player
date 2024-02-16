@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { slug: string } }) {
             {currentVideo?.description}
           </p>
         </div>
-        <div className="sm:h-[calc(100%-52px)] h-fit  sm:fixed sm:mt-0 mt-5 right-0   sm:w-1/3 w-full sm:overflow-auto pb-5 sm:pl-10">
+        <div className="sm:h-[calc(100%-52px)] h-fit  sm:fixed sm:mt-0 mt-5 right-0 sm:w-1/3 w-full sm:overflow-auto  sm:pl-10">
           <Playlist currentVideoId={params.slug} />
         </div>
       </div>
