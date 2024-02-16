@@ -4,6 +4,7 @@ import {
   Maximize,
   Pause,
   Play,
+  RotateCcw,
   Settings,
   SkipForward,
   Volume1,
@@ -49,13 +50,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     setIsVideoLoaded
   } = useVideoPlayerContext();
 
-  // useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
+  useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
 
   useGetSavedProgress(currentVideo, videoElement);
 
   usePutSaveProgress(currentVideo, videoElement);
   useVideoLoading(setIsVideoLoaded, videoElement,currentVideo);
-  console.log(isVideoLoaded);
+
+
 
   return (
     <div
@@ -101,7 +103,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           >
             <div className="flex justify-start items-center gap-8">
               <button onClick={() => togglePlay()}>
-                {!playerState.isPlaying ? (
+              {formatTime(currentTime) === formatTime(duration) ? <RotateCcw/>:
+
+                !playerState.isPlaying ? (
                   <Play fill="white" />
                 ) : (
                   <Pause fill="white" />

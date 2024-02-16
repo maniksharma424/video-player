@@ -134,33 +134,30 @@ export const useAutoPlay = (
 ) => {
   useEffect(() => {
     if (videoElement.current) {
-      if (videoElement.current.paused || videoElement.current.ended) {
-        videoElement.current.play();
-      } else {
-        videoElement.current.pause();
-      }
-      setPlayerState({
-        ...playerState,
-        isPlaying: !videoElement.current.paused,
+      videoElement.current.play().then((res) => {
+        setPlayerState({
+          ...playerState,
+          isPlaying: !videoElement?.current?.paused,
+        });
       });
     }
-  }, [isPlaylistVideo, setPlayerState, videoElement.current]);
+  }, [videoElement.current]);
 };
 export const useClickOutside = (
-  playbackRef: PlaybackRef,
-  setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>
+  elementRef: PlaybackRef,
+  setState: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   useEffect(() => {
     function handleClickOutside(event: any) {
-      if (playbackRef.current && !playbackRef.current.contains(event.target)) {
-        setShowPlaybackSpeed(false);
+      if (elementRef.current && !elementRef.current.contains(event.target)) {
+        setState(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [playbackRef, setShowPlaybackSpeed]);
+  }, [elementRef, setState]);
 };
 export const useGetSavedProgress = (
   currentVideo: Video | null,
@@ -201,7 +198,7 @@ export const useVideoLoading = (
   currentVideo: Video | null
 ) => {
   useEffect(() => {
-    setIsVideoLoaded(false)
+    setIsVideoLoaded(false);
     const handleVideoLoading = () => {
       setIsVideoLoaded(true);
     };
@@ -215,5 +212,5 @@ export const useVideoLoading = (
     return () => {
       video?.removeEventListener("canplaythrough", handleVideoLoading);
     };
-  }, [videoElement, setIsVideoLoaded,currentVideo]);
+  }, [videoElement, setIsVideoLoaded, currentVideo]);
 };

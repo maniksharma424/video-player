@@ -11,6 +11,7 @@ export interface Video {
   subtitle: string;
   thumb: string;
   title: string;
+  duration: string;
 }
 
 export type VideoElementRef = React.MutableRefObject<HTMLVideoElement | null>;
@@ -105,6 +106,7 @@ export type videoCard = {
   subtitle: string;
   thumb: string;
   title: string;
+  duration: string;
 };
 
 export interface VideoPlayerProps {
@@ -123,7 +125,7 @@ export interface VideoPlayerContextType {
   videoContainer: VideoContainerRef;
   currentTime: number;
   duration: number;
-  navigateToNextVideo: (id:string|undefined) => void;
+  navigateToNextVideo: (id: string | undefined) => void;
   togglePlay: () => void;
   toggleFullscreen: () => void;
   handleVolumeChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -136,8 +138,7 @@ export interface VideoPlayerContextType {
   setShowVolumeRange: React.Dispatch<React.SetStateAction<boolean>>;
   showPlaybackSpeed: boolean;
   setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>;
-  playbackRef:PlaybackRef
-  isVideoLoaded:boolean
+  playbackRef: PlaybackRef;
+  isVideoLoaded: boolean;
   setIsVideoLoaded: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
