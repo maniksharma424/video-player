@@ -59,7 +59,7 @@ const Page: React.FC<{ videoId: string }> = ({ videoId }) => {
             return (
               <div
                 key={item.id}
-                className={`my-2 ${videoId === item.id && "bg-gray-200"}`}
+                className={`my-2 ${videoId === item.id && "bg-gray-100  rounded-md"}`}
               >
                 <div
                   draggable

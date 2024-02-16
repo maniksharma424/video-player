@@ -41,7 +41,7 @@ const SearchModal: React.FC<{
       <div className="absolute h-screen w-full bg-[#0C111D] opacity-[0.7] bg-blend-overlay "></div>
       <div
         ref={modalRef}
-        className="lg:w-1/3 sm:3/5 w-4/5 sm:h-2/3 bg-white z-[600] rounded-md flex flex-col sm:p-8 p-5 relative"
+        className="lg:w-1/3 sm:3/5 w-4/5 h-2/3 bg-white z-[600] rounded-md flex flex-col sm:p-8 p-5 relative"
       >
         <input
           className="w-full border h-9 text-black p-1 px-2 rounded-md  focus:outline-none border-gray-200 shadow-sm font-[300] text-[14px]"

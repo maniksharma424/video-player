@@ -21,7 +21,7 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
         e.preventDefault();
         router.push(`/watch/${item.id}`);
       }}
-      className="w-full h-full  cursor-pointer flex items-start"
+      className="w-full h-full  cursor-pointer flex items-start hover:shadow-md"
     >
       <div
         onMouseEnter={() => {
