@@ -4,7 +4,7 @@ import React from "react";
 const PreviewVideo: React.FC<{ video: Video }> = ({ video }) => {
   return (
     <video
-      className="w-full h-full"
+      className="w-full h-full rounded-md"
       src={video.sources[0]}
       autoPlay
       muted

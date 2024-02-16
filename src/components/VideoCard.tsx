@@ -1,12 +1,9 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Timeout, videoCard } from "@/types/types";
 import Image from "next/image";
-import { VideoContext, useVideoContext } from "@/providers/videoProvider";
-import VideoPlayer from "./VideoPlayer";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PreviewVideo from "./PreviewVideo";
-import { formatTime } from "@/helpers";
+
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { description, sources, subtitle, thumb, title } = item;
@@ -39,17 +36,19 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
         {isHovered ? (
           <PreviewVideo video={item} />
         ) : (
-          <Image
-            className="w-full h-full rounded-md object-cover "
-            src={item.thumb}
-            height={5}
-            width={100}
-            alt="image"
-          />
+          <>
+            <Image
+              className="w-full h-full rounded-md object-cover "
+              src={item.thumb}
+              height={5}
+              width={100}
+              alt="image"
+            />
+            <span className="absolute bottom-2 right-1 text-[9px] p-1  bg-black/60 text-white font-[500] rounded-sm ">
+              {item.duration}
+            </span>
+          </>
         )}
-        <span className="absolute bottom-2 right-1 text-[9px] p-1  bg-black/60 text-white font-[500] rounded-sm ">
-          {item.duration}
-        </span>
       </div>
       <div id="info" className="w-1/2 ml-2 flex flex-col justify-start">
         <p className="text-[16px] font-[500] leading-8 truncate">{title}</p>
