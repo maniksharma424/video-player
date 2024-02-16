@@ -22,6 +22,7 @@ import {
   useMuteToggle,
   usePlayPause,
   useSeeking,
+  useVideoLoading,
   useVolumeControl,
 } from "@/hooks/hooks";
 
@@ -42,7 +43,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   const [isFullscreenMode, setIsFullscreenMode] = useState(false);
   const [showVolumeRange, setShowVolumeRange] = useState(false);
   const [showPlaybackSpeed, setShowPlaybackSpeed] = useState(false);
-
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const playbackRef = useRef<HTMLDivElement>(null);
@@ -187,7 +188,7 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   useClickOutside(playbackRef, setShowPlaybackSpeed);
 
-  
+
   const contextValue = {
     playerState,
     setPlayerState,
@@ -213,6 +214,8 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     showPlaybackSpeed,
     setShowPlaybackSpeed,
     playbackRef,
+    isVideoLoaded,
+    setIsVideoLoaded
   };
 
   return (

@@ -163,7 +163,7 @@ export const useClickOutside = (
   }, [playbackRef, setShowPlaybackSpeed]);
 };
 export const useGetSavedProgress = (
-  currentVideo: Video|null,
+  currentVideo: Video | null,
   videoElement: VideoElementRef
 ) => {
   useEffect(() => {
@@ -174,7 +174,7 @@ export const useGetSavedProgress = (
   }, [currentVideo, videoElement]);
 };
 export const usePutSaveProgress = (
-  currentVideo: Video|null,
+  currentVideo: Video | null,
   videoElement: VideoElementRef
 ) => {
   useEffect(() => {
@@ -194,4 +194,26 @@ export const usePutSaveProgress = (
       };
     }
   }, [currentVideo, videoElement]);
+};
+export const useVideoLoading = (
+  setIsVideoLoaded: React.Dispatch<React.SetStateAction<boolean>>,
+  videoElement: VideoElementRef,
+  currentVideo: Video | null
+) => {
+  useEffect(() => {
+    setIsVideoLoaded(false)
+    const handleVideoLoading = () => {
+      setIsVideoLoaded(true);
+    };
+    if (videoElement.current) {
+      videoElement.current.addEventListener(
+        "canplaythrough",
+        handleVideoLoading
+      );
+    }
+    const video = videoElement.current;
+    return () => {
+      video?.removeEventListener("canplaythrough", handleVideoLoading);
+    };
+  }, [videoElement, setIsVideoLoaded,currentVideo]);
 };

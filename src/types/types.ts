@@ -137,5 +137,7 @@ export interface VideoPlayerContextType {
   showPlaybackSpeed: boolean;
   setShowPlaybackSpeed: React.Dispatch<React.SetStateAction<boolean>>;
   playbackRef:PlaybackRef
+  isVideoLoaded:boolean
+  setIsVideoLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 
 }

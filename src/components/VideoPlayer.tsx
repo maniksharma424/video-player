@@ -9,29 +9,25 @@ import {
   Volume1,
   VolumeX,
 } from "lucide-react";
-
 import {
   useAutoPlay,
   useGetSavedProgress,
   usePutSaveProgress,
+  useVideoLoading,
 } from "@/hooks/hooks";
 import { VideoPlayerProps } from "@/types/types";
 import { formatTime } from "@/helpers/index";
 import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
 import { PLAYBACK_SPEED } from "@/constant";
-import { useEffect, useRef } from "react";
-import Image from "next/image";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
-  showControls = true,
   isPlaylistVideo,
 }) => {
   const {
     playerState,
     setPlayerState,
     volume,
-    setVolume,
     videoElement,
     videoContainer,
     currentTime,
@@ -49,13 +45,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     showPlaybackSpeed,
     setShowPlaybackSpeed,
     playbackRef,
+    isVideoLoaded,
+    setIsVideoLoaded
   } = useVideoPlayerContext();
 
-  useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
+  // useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
 
   useGetSavedProgress(currentVideo, videoElement);
-  
+
   usePutSaveProgress(currentVideo, videoElement);
+  useVideoLoading(setIsVideoLoaded, videoElement,currentVideo);
+  console.log(isVideoLoaded);
 
   return (
     <div
@@ -69,11 +69,20 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoElement}
         src={currentVideo?.sources[0]}
         className={`rounded-md  
-           w-full h-full drop-shadow-md
+           drop-shadow-md ${
+             isVideoLoaded ? "visible  w-full h-full" : "invisible h-0 w-0 "
+           }
         `}
       ></video>
+      <div
+        className={` rounded-md bg-black flex justify-center items-center ${
+          isVideoLoaded ? "hidden" : "sm:h-[500px] h-[255px] w-full"
+        }`}
+      >
+        <div className="w-10 h-10 border-2  border-red-500 border-t-white animate-spin rounded-full"></div>
+      </div>
 
-      {showControls && (
+      {isVideoLoaded && (
         <div
           className={`controls ${
             playerState.isPlaying && "group-hover:opacity-100 opacity-0"
