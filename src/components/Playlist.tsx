@@ -52,8 +52,8 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="flex-1 w-full flex  flex-col justify-start ">
+
+      <div className="h-full w-full flex  flex-col justify-start ">
         <LoadingContainer loading={loading}>
           {allVideos.map((item, index) => {
             return (
@@ -78,7 +78,7 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
           })}
         </LoadingContainer>
       </div>
-    </div>
+
   );
 };
 

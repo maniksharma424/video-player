@@ -47,7 +47,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     setShowPlaybackSpeed,
     playbackRef,
     isVideoLoaded,
-    setIsVideoLoaded
+    setIsVideoLoaded,
   } = useVideoPlayerContext();
 
   useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
@@ -55,9 +55,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   useGetSavedProgress(currentVideo, videoElement);
 
   usePutSaveProgress(currentVideo, videoElement);
-  useVideoLoading(setIsVideoLoaded, videoElement,currentVideo);
 
-
+  useVideoLoading(setIsVideoLoaded, videoElement, currentVideo);
 
   return (
     <div
@@ -65,20 +64,19 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       className={`group w-full  h-fit max-w-[1000px] relative`}
     >
       <video
+        playsInline
         controls={false}
         onClick={() => togglePlay()}
         onTimeUpdate={() => handleOnTimeUpdate()}
         ref={videoElement}
         src={currentVideo?.sources[0]}
-        className={`rounded-md  
-           drop-shadow-md ${
-             isVideoLoaded ? "visible  w-full h-full" : "invisible h-0 w-0 "
-           }
+        className={`rounded-md  w-full h-full
+           drop-shadow-md ${isVideoLoaded ? "visible  " : "invisible "}
         `}
       ></video>
       <div
-        className={` rounded-md bg-black flex justify-center items-center ${
-          isVideoLoaded ? "hidden" : "sm:h-[500px] h-[255px] w-full"
+        className={`absolute bottom-0 rounded-md bg-black flex justify-center items-center  ${ 
+          isVideoLoaded ? "hidden" : "h-full w-full"
         }`}
       >
         <div className="w-10 h-10 border-2  border-red-500 border-t-white animate-spin rounded-full"></div>
@@ -103,9 +101,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           >
             <div className="flex justify-start items-center sm:gap-8 gap-2">
               <button onClick={() => togglePlay()}>
-              {formatTime(currentTime) === formatTime(duration) ? <RotateCcw/>:
-
-                !playerState.isPlaying ? (
+                {formatTime(currentTime) === formatTime(duration) ? (
+                  <RotateCcw />
+                ) : !playerState.isPlaying ? (
                   <Play fill="white" />
                 ) : (
                   <Pause fill="white" />
