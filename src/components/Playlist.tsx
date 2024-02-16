@@ -7,15 +7,14 @@ import React, { useEffect, useRef, useState } from "react";
 import LoadingContainer from "./LoadingContainer";
 
 const Page = () => {
-  const [loading, setIsLoading] = useState(true);
   const {
     allVideos,
     setAllVideos,
-
+    loading,
   }: {
     allVideos: Video[];
     setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>;
-
+    loading: boolean;
   } = useVideoContext();
 
   const dragItem = useRef<number>(0);
@@ -52,34 +51,13 @@ const Page = () => {
     localStorage.setItem("videoOrder", JSON.stringify(videoOrder));
   };
 
-  useEffect(() => {
-    const getSavedVideoOrder = () => {
-      const savedOrder = localStorage.getItem("videoOrder");
-      return savedOrder ? JSON.parse(savedOrder) : null;
-    };
-
-    const savedVideoOrder = getSavedVideoOrder();
-
-    if (savedVideoOrder) {
-      const reorderedVideos = savedVideoOrder.map((id: string) =>
-        allVideos.find((video) => video.id === id)
-      );
-      setAllVideos(reorderedVideos);
-    }
-    setIsLoading(false);
-  }, []);
-
-
   return (
     <div className="w-full h-screen flex flex-col sm:pl-10">
       <div className="flex-1 w-full flex  flex-col justify-start ">
         <LoadingContainer loading={loading}>
           {allVideos.map((item, index) => {
             return (
-              <div
-                key={item.id}
-                className={`my-2 `}
-              >
+              <div key={item.id} className={`my-2 `}>
                 <div
                   draggable
                   onDragStart={(e) => {
