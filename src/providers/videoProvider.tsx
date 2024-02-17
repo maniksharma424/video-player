@@ -13,6 +13,8 @@ export interface VideoContextType {
   allVideos: Video[];
   loading: boolean;
   setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>;
+  showsearchModal: boolean;
+  setshowSearchModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const VideoContext = createContext<VideoContextType | undefined>(
@@ -23,12 +25,15 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [allVideos, setAllVideos] = useState<Video[]>(playlist);
+  const [showsearchModal, setshowSearchModal] = useState<boolean>(false);
   const [loading, setIsLoading] = useState(true);
 
   const contextValue: VideoContextType = {
     allVideos,
     loading,
     setAllVideos,
+    showsearchModal,
+    setshowSearchModal,
   };
 
   useEffect(() => {

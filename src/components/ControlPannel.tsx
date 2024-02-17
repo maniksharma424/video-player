@@ -70,7 +70,7 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
           >
             {<SkipForward fill="white" />}
           </button>
-          <span>
+          <span className="min-w-[120px]">
             {formatTime(currentTime)}/{formatTime(duration)}
           </span>
 

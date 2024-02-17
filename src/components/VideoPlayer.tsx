@@ -46,7 +46,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         onTimeUpdate={() => handleOnTimeUpdate()}
         ref={videoElement}
         src={currentVideo?.sources[0]}
-        className={`rounded-md  w-full h-full
+        className={` videoPlayer rounded-md  w-full h-full
            drop-shadow-md ${isVideoLoaded ? "visible" : "invisible "}
         `}
       ></video>

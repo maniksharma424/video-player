@@ -13,7 +13,7 @@ export interface Video {
   title: string;
   duration: string;
 }
-type SetStateBoolean = React.Dispatch<React.SetStateAction<boolean>>;
+export type SetStateBoolean = React.Dispatch<React.SetStateAction<boolean>>;
 
 export type VideoElementRef = React.MutableRefObject<HTMLVideoElement | null>;
 export type VideoContainerRef = React.MutableRefObject<HTMLDivElement | null>;
@@ -101,4 +101,8 @@ export type UseKeyboardShortcutsProps = {
   playerState: PlayerState;
   seek: (seconds: number) => void;
   togglePlay: () => void;
+  showsearchModal: boolean;
+  setshowSearchModal: SetStateBoolean;
+  setShowVolumeRange: SetStateBoolean;
+  volumeTimeout: React.MutableRefObject<Timeout | null>;
 };

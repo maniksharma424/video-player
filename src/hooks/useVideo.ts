@@ -1,19 +1,24 @@
 import { useEffect } from "react";
-import {
-  PlayerState,
-  VideoElementRef,
-  Video,
-} from "../types/types";
+import { PlayerState, VideoElementRef, Video } from "../types/types";
 
 export const useMuteToggle = (
   playerState: PlayerState,
-  videoElement: VideoElementRef
+  setPlayerState: React.Dispatch<React.SetStateAction<PlayerState>>,
+  volume: number
 ) => {
   useEffect(() => {
-    if (videoElement.current) {
-      videoElement.current.muted = playerState.isMuted;
+    if (volume === 0) {
+      setPlayerState({
+        ...playerState,
+        isMuted: true,
+      });
+    } else {
+      setPlayerState({
+        ...playerState,
+        isMuted: false,
+      });
     }
-  }, [playerState.isMuted, videoElement]);
+  }, [volume, setPlayerState]);
 };
 export const useAutoPlay = (
   playerState: PlayerState,

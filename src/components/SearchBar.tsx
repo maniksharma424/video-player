@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 
 import { Command, Search } from "lucide-react";
 import SearchModal from "./SearchModal";
+import { useVideoContext } from "@/providers/videoProvider";
 
 const SearchBar = () => {
-  const [showsearchModal, setshowSearchModal] = useState<boolean>(false);
+  const { showsearchModal, setshowSearchModal } = useVideoContext();
 
-  const keyDownHandler = (event: KeyboardEvent) => {
-    if (event.metaKey && event.key === "k") {
-      setshowSearchModal(true);
-    }
-  };
+  // const keyDownHandler = (event: KeyboardEvent) => {
+  //   if (event.metaKey && event.key === "k") {
+  //     setshowSearchModal(true);
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener("keydown", keyDownHandler);
-  });
+  // useEffect(() => {
+  //   window.addEventListener("keydown", keyDownHandler);
+  // });
   return (
     <div className="flex justify-start sm:w-1/3 w-5/6 pl-10">
       <div

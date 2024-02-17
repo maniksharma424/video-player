@@ -1,12 +1,20 @@
 "use client";
 
-import { PlayerState, Video, VideoPlayerContextType } from "@/types/types";
+import {
+  PlayerState,
+  SetStateBoolean,
+  Timeout,
+  Video,
+  VideoPlayerContextType,
+} from "@/types/types";
 import React, {
   createContext,
   useState,
   ReactNode,
   useContext,
   useRef,
+  useEffect,
+  MutableRefObject,
 } from "react";
 import { useVideoContext } from "./videoProvider";
 import { useRouter } from "next/navigation";
@@ -35,6 +43,8 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const playbackRef = useRef<HTMLDivElement>(null);
+  const volumeTimeout: MutableRefObject<Timeout | null> = useRef(null);
+
   const router = useRouter();
   const currentTime = videoElement?.current?.currentTime ?? 0;
 
@@ -42,8 +52,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   const {
     allVideos,
+    showsearchModal,
+    setshowSearchModal,
   }: {
     allVideos: Video[];
+    showsearchModal: boolean;
+    setshowSearchModal: SetStateBoolean;
   } = useVideoContext();
 
   const navigateToNextVideo = (id: string | undefined) => {
@@ -168,8 +182,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     playerState,
     seek,
     togglePlay,
+    showsearchModal,
+    setshowSearchModal,
+    setShowVolumeRange,
+    volumeTimeout,
   });
-  useMuteToggle(playerState, videoElement);
+  useMuteToggle(playerState, setPlayerState, volume);
 
   useClickOutside(playbackRef, setShowPlaybackSpeed);
 
