@@ -1,13 +1,12 @@
 "use client";
-import {
-  useAutoPlay,
-  useGetSavedProgress,
-  usePutSaveProgress,
-  useVideoLoading,
-} from "@/hooks/hooks";
+import { useAutoPlay, usePlayback, useVideoLoading } from "@/hooks/useVideo";
 import { VideoPlayerProps } from "@/types/types";
 import { useVideoPlayerContext } from "@/providers/videoPlayerProvider";
 import ControlPannel from "./ControlPannel";
+import {
+  useGetSavedProgress,
+  usePutSaveProgress,
+} from "@/hooks/useVideoProgress";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
@@ -22,15 +21,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     handleOnTimeUpdate,
     isVideoLoaded,
     setIsVideoLoaded,
+    navigateToNextVideo,
   } = useVideoPlayerContext();
 
-  useAutoPlay(isPlaylistVideo, playerState, setPlayerState, videoElement);
+  useAutoPlay(playerState, setPlayerState, videoElement);
 
   useGetSavedProgress(currentVideo, videoElement);
 
   usePutSaveProgress(currentVideo, videoElement);
 
   useVideoLoading(setIsVideoLoaded, videoElement, currentVideo);
+
+  usePlayback(navigateToNextVideo, currentVideo, videoElement);
 
   return (
     <div

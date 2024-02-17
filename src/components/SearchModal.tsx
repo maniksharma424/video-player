@@ -6,7 +6,8 @@ import SearchCard from "./SearchCard";
 import { Search } from "lucide-react";
 import SearchResultNotFound from "./SearchResultNotFound";
 import StartSearching from "./StartSearching";
-import { useClickOutside } from "@/hooks/hooks";
+import useClickOutside from "@/hooks/useClickOutside";
+
 
 const SearchModal: React.FC<{
   setshowSearchModal: React.Dispatch<React.SetStateAction<boolean>>;

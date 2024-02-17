@@ -1,30 +1,18 @@
 "use client";
 
-import {
-  PlaybackRef,
-  PlayerState,
-  Video,
-  VideoPlayerContextType,
-} from "@/types/types";
+import { PlayerState, Video, VideoPlayerContextType } from "@/types/types";
 import React, {
   createContext,
   useState,
   ReactNode,
   useContext,
   useRef,
-  useEffect,
 } from "react";
 import { useVideoContext } from "./videoProvider";
 import { useRouter } from "next/navigation";
-import {
-  useClickOutside,
-  useFullscreen,
-  useMuteToggle,
-  usePlayPause,
-  useSeeking,
-  useVideoLoading,
-  useVolumeControl,
-} from "@/hooks/hooks";
+import { useMuteToggle } from "@/hooks/useVideo";
+import useKeyBoard from "@/hooks/useKeyboard";
+import useClickOutside from "@/hooks/useClickOutside";
 
 export const VideoPlayerContext = createContext<
   VideoPlayerContextType | undefined
@@ -171,13 +159,10 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  usePlayPause({ videoElement, playerState });
-
-  useFullscreen({ videoContainer });
-
-  useVolumeControl({ volume, setVolume, videoElement });
-
-  useSeeking({
+  useKeyBoard({
+    videoContainer,
+    volume,
+    setVolume,
     videoElement,
     setPlayerState,
     playerState,
@@ -187,16 +172,6 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   useMuteToggle(playerState, videoElement);
 
   useClickOutside(playbackRef, setShowPlaybackSpeed);
-
-  useEffect(() => {
-    videoElement?.current?.addEventListener("ended", function () {
-      setPlayerState({
-        ...playerState,
-        isPlaying: false,
-        progress:100
-      });
-    });
-  }, [videoElement]);
 
   const contextValue = {
     playerState,
