@@ -1,8 +1,9 @@
 "use client";
 
 import {
-  PlaybackRef,
   PlayerState,
+  SetStateBoolean,
+  Timeout,
   Video,
   VideoPlayerContextType,
 } from "@/types/types";
@@ -13,18 +14,13 @@ import React, {
   useContext,
   useRef,
   useEffect,
+  MutableRefObject,
 } from "react";
 import { useVideoContext } from "./videoProvider";
 import { useRouter } from "next/navigation";
-import {
-  useClickOutside,
-  useFullscreen,
-  useMuteToggle,
-  usePlayPause,
-  useSeeking,
-  useVideoLoading,
-  useVolumeControl,
-} from "@/hooks/hooks";
+import { useMuteToggle } from "@/hooks/useVideo";
+import useKeyBoard from "@/hooks/useKeyboard";
+import useClickOutside from "@/hooks/useClickOutside";
 
 export const VideoPlayerContext = createContext<
   VideoPlayerContextType | undefined
@@ -47,6 +43,8 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const playbackRef = useRef<HTMLDivElement>(null);
+  const volumeTimeout: MutableRefObject<Timeout | null> = useRef(null);
+
   const router = useRouter();
   const currentTime = videoElement?.current?.currentTime ?? 0;
 
@@ -54,8 +52,12 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
 
   const {
     allVideos,
+    showsearchModal,
+    setshowSearchModal,
   }: {
     allVideos: Video[];
+    showsearchModal: boolean;
+    setshowSearchModal: SetStateBoolean;
   } = useVideoContext();
 
   const navigateToNextVideo = (id: string | undefined) => {
@@ -171,32 +173,23 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  usePlayPause({ videoElement, playerState });
-
-  useFullscreen({ videoContainer });
-
-  useVolumeControl({ volume, setVolume, videoElement });
-
-  useSeeking({
+  useKeyBoard({
+    videoContainer,
+    volume,
+    setVolume,
     videoElement,
     setPlayerState,
     playerState,
     seek,
     togglePlay,
+    showsearchModal,
+    setshowSearchModal,
+    setShowVolumeRange,
+    volumeTimeout,
   });
-  useMuteToggle(playerState, videoElement);
+  useMuteToggle(playerState, setPlayerState, volume);
 
   useClickOutside(playbackRef, setShowPlaybackSpeed);
-
-  useEffect(() => {
-    videoElement?.current?.addEventListener("ended", function () {
-      setPlayerState({
-        ...playerState,
-        isPlaying: false,
-        progress:100
-      });
-    });
-  }, [videoElement]);
 
   const contextValue = {
     playerState,

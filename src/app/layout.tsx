@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ProgressBar from "@/components/NextProgessBar";
-import { VideoPlayerProvider } from "@/providers/videoPlayerProvider";
-import { VideoProvider } from "@/providers/videoProvider";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
