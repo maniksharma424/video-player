@@ -16,7 +16,7 @@ const Header: React.FC<{ slug: string }> = ({ slug }) => {
   }: { showPlaylist: boolean; setShowPlayList: SetStateBoolean } =
     useVideoContext();
   return (
-    <div className="w-full h-fit flex  py-2 sm:justify-between justify-start items-center border-b border-b-gray-100">
+    <div className="w-full h-fit flex  py-2 justify-between items-center border-b border-b-gray-100">
       <div className="sm:flex hidden sm:w-2/3 justify-start items-baseline ">
         <Link
           href={"/watch"}
@@ -27,19 +27,24 @@ const Header: React.FC<{ slug: string }> = ({ slug }) => {
         </Link>
 
         <ul className="sm:flex hidden  ml-5   justify-start items-center leading-8 gap-2 text-[14px] font-[300] text-gray-500">
-          <Link href={"/watch"}>Home</Link>
           <Link href={"/blog"}>Blog</Link>
         </ul>
       </div>
-      <div
-        onClick={() => setShowPlayList((n) => !n)}
-        className="sm:hidden mr-3 "
-      >
-        <Logo2 />
+      <div className="flex justify-start items-center">
+        <div
+          onClick={() => setShowPlayList((n) => !n)}
+          className="sm:hidden mr-3 "
+        >
+          <Logo2 />
+        </div>
+        <Link
+          className="sm:hidden block ml-1"
+          aria-label="Github repository for the project"
+          href={"https://github.com/maniksharma424/video-player"}
+        >
+          <GithubIcon />
+        </Link>
       </div>
-      <Link href={"https://github.com/maniksharma424/video-player"}>
-        <GithubIcon />
-      </Link>
       <SearchBar />
       {showPlaylist && (
         <ResponsivePlaylist

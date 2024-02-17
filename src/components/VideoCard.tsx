@@ -33,7 +33,7 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
           setIsHovered(false);
         }}
         id="image"
-        className="w-2/5 h-[95px]  rounded-md relative"
+        className="w-2/6 h-[95px]  rounded-md relative"
       >
         {isHovered ? (
           <PreviewVideo video={item} />

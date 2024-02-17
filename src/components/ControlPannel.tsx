@@ -43,7 +43,8 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
       } pb-2 w-full h-fit  custom-control-panel absolute  rounded-b-md bottom-0 flex  flex-col justify-between text-white items-center backdrop-blur-sm  bg-black/10`}
     >
       <input
-        className={`w-full    accent-red-500`}
+        aria-label="Range playback for the current video  "
+        className={`w-full    accent-red-500 cursor-pointer`}
         type="range"
         min="0"
         max="100"
@@ -54,38 +55,49 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
         className={` w-[calc(95%)] transition-opacity flex mt-2 items-center justify-between`}
       >
         <div className="flex justify-start items-center sm:gap-8 gap-2">
-          <button onClick={() => togglePlay()}>
+          <div className="cursor-pointer" onClick={() => togglePlay()}>
             {formatTime(currentTime) === formatTime(duration) ? (
               <RotateCcw />
             ) : !playerState.isPlaying ? (
-              <Play fill="white" />
+              <Play fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />
             ) : (
-              <Pause fill="white" />
+              <Pause fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />
             )}
-          </button>
-          <button
+          </div>
+          <div
+            className="cursor-pointer"
             onClick={() => {
               navigateToNextVideo(currentVideo?.id);
             }}
           >
-            {<SkipForward fill="white" />}
-          </button>
-          <span className="min-w-[120px]">
+            {<SkipForward fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />}
+          </div>
+          <span className="min-w-[120px] sm:text-[16px] text-[10px]">
             {formatTime(currentTime)}/{formatTime(duration)}
           </span>
 
-          <button
+          <div
             onMouseOver={() => setShowVolumeRange(true)}
             onMouseLeave={() => setShowVolumeRange(false)}
-            className="mute-btn flex justify-start items-center sm:gap-3 gap-1"
+            className="mute-btn flex justify-start items-center sm:gap-3 gap-1 cursor-pointer"
           >
             {!playerState.isMuted ? (
-              <Volume1 onClick={() => toggleMute()} fill="white" />
+              <Volume1
+                onClick={() => toggleMute()}
+                fill="white"
+                className="sm:w-6 sm:h-6  w-3 h-3"
+              />
             ) : (
-              <VolumeX onClick={() => toggleMute()} fill="white" />
+              <VolumeX
+                onClick={() => toggleMute()}
+                fill="white"
+                className="sm:w-6 sm:h-6  w-3 h-3"
+              />
             )}
             {showVolumeRange && (
               <input
+                className="cursor-pointer sm:block hidden"
+                aria-label="Range for volume control"
                 type="range"
                 min="0"
                 max="1"
@@ -94,11 +106,12 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
                 onChange={(e) => handleVolumeChange(e)}
               />
             )}
-          </button>
+          </div>
         </div>
         <div className="flex justify-end items-center sm:gap-8 gap-2">
           <div className="relative cursor-pointer">
             <Settings
+              className="sm:w-6 sm:h-6  w-3 h-3"
               onClick={(e) => {
                 setShowPlaybackSpeed((n) => !n);
               }}
@@ -122,9 +135,9 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
               </div>
             )}
           </div>
-          <button onClick={() => toggleFullscreen()}>
-            <Maximize />
-          </button>
+          <div onClick={() => toggleFullscreen()}>
+            <Maximize className="sm:w-6 sm:h-6  w-3 h-3" />
+          </div>
         </div>
       </div>
     </div>
