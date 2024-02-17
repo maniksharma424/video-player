@@ -1,19 +1,23 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import Logo from "./Logo";
-
+import Link from "next/link";
 
 const Header = () => {
   return (
     <div className="w-full h-fit flex  py-2 sm:justify-between justify-start items-center border-b border-b-gray-100">
       <div className="sm:flex hidden sm:w-2/3 justify-start items-baseline ">
-        <Logo />
-        <p className="font-[500] text-[16px] ml-2 leading-8">Caste</p>
+        <Link
+          href={"/watch"}
+          className=" cursor-pointer flex justify-start items-baseline"
+        >
+          <Logo />
+          <p className="font-[500] text-[16px] ml-2 leading-8">Caste</p>
+        </Link>
 
         <ul className="sm:flex hidden  ml-5   justify-start items-center leading-8 gap-2 text-[14px] font-[300] text-gray-500">
-          <li>Home</li>
-          <li>Portfolio</li>
-          <li>Developer</li>
+          <Link href={"/watch"}>Home</Link>
+          <Link href={"/blog"}>Blog</Link>
         </ul>
       </div>
       <div className="sm:hidden block mr-3 ">

@@ -3,7 +3,7 @@ import { Timeout, videoCard } from "@/types/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PreviewVideo from "./PreviewVideo";
-
+import { GripHorizontal, GripIcon } from "lucide-react";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { description, sources, subtitle, thumb, title } = item;
@@ -51,7 +51,12 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
         )}
       </div>
       <div id="info" className="w-1/2 ml-2 flex flex-col justify-start">
-        <p className="text-[16px] font-[500] leading-8 truncate">{title}</p>
+        <p className="text-[16px] font-[500] leading-8  w-full flex justify-between items-center">
+          <span className="w-2/3 truncate">{title}</span>
+          <span>
+            <GripHorizontal className="text-gray-500 cursor-move" />
+          </span>
+        </p>
 
         <p className="text-[12px] font-[600] leading-8 text-gray-400 truncate">
           {subtitle}
