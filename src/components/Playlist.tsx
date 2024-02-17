@@ -71,7 +71,6 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
                   onDragEnd={(e) => handleDragEnd(e)}
                   className="flex items-center  rounded-lg max-h-32"
                 >
-                  <GripVertical className=" text-gray-500 cursor-grab"/>
                   <VideoCard item={item} />
                 </div>
               </div>

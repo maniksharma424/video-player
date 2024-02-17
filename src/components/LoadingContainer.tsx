@@ -6,7 +6,7 @@ const LoadingContainer: React.FC<{ loading: boolean; children: any }> = ({
 }) => {
   if (loading)
     return (
-      <div className="w-full h-screen flex justify-center">
+      <div className="w-full h-screen flex justify-center items-center">
         <div className="w-10 h-10 border-2 border-t-black border-white animate-spin rounded-full"></div>
       </div>
     );
