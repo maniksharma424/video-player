@@ -1,6 +1,6 @@
 "use client";
 import { playlist } from "@/constant";
-import { Video } from "@/types/types";
+import { SetStateBoolean, Video } from "@/types/types";
 import React, {
   createContext,
   useState,
@@ -15,6 +15,8 @@ export interface VideoContextType {
   setAllVideos: React.Dispatch<React.SetStateAction<Video[]>>;
   showsearchModal: boolean;
   setshowSearchModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showPlaylist:boolean;
+  setShowPlayList:SetStateBoolean
 }
 
 export const VideoContext = createContext<VideoContextType | undefined>(
@@ -27,13 +29,15 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({
   const [allVideos, setAllVideos] = useState<Video[]>(playlist);
   const [showsearchModal, setshowSearchModal] = useState<boolean>(false);
   const [loading, setIsLoading] = useState(true);
-
+  const [showPlaylist, setShowPlayList] = useState(false);
   const contextValue: VideoContextType = {
     allVideos,
     loading,
     setAllVideos,
     showsearchModal,
     setshowSearchModal,
+    showPlaylist,
+    setShowPlayList,
   };
 
   useEffect(() => {

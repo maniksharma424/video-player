@@ -17,7 +17,7 @@ const SearchBar = () => {
   //   window.addEventListener("keydown", keyDownHandler);
   // });
   return (
-    <div className="flex justify-start sm:w-1/3 w-5/6 pl-10">
+    <div className="flex justify-start sm:w-1/3 w-5/6 pl-1 sm:pl-12">
       <div
         onClick={() => {
           setshowSearchModal((n) => !n);

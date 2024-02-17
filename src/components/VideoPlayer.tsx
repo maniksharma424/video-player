@@ -7,6 +7,7 @@ import {
   useGetSavedProgress,
   usePutSaveProgress,
 } from "@/hooks/useVideoProgress";
+import Image from "next/image";
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
   currentVideo,
@@ -47,7 +48,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoElement}
         src={currentVideo?.sources[0]}
         className={` videoPlayer rounded-md  w-full h-full
-           drop-shadow-md ${isVideoLoaded ? "visible" : "invisible "}
+         drop-shadow-md ${isVideoLoaded ? "visible" : "invisible "}
         `}
       ></video>
       <div
@@ -56,6 +57,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         }`}
       >
         <div className="w-10 h-10 border-2  border-black border-t-white animate-spin rounded-full"></div>
+        {/* <Image height={100} width={100} alt="hh" src={currentVideo?.thumb!} /> */}
       </div>
 
       {isVideoLoaded && <ControlPannel currentVideo={currentVideo} />}

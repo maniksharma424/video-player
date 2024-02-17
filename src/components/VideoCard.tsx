@@ -1,22 +1,24 @@
 import React, { useState, useRef } from "react";
-import { Timeout, videoCard } from "@/types/types";
+import { SetStateBoolean, Timeout, videoCard } from "@/types/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PreviewVideo from "./PreviewVideo";
 import { GripHorizontal, GripIcon } from "lucide-react";
+import { useVideoContext } from "@/providers/videoProvider";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
-  const { description, sources, subtitle, thumb, title } = item;
-
+  const { subtitle, title } = item;
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
   const timeoutRef = useRef<Timeout>();
-
+  const { setShowPlayList }: { setShowPlayList: SetStateBoolean } =
+    useVideoContext();
   return (
     <div
       onClick={(e) => {
         e.preventDefault();
         router.push(`/watch/${item.id}`);
+        setShowPlayList(false);
       }}
       className="w-full h-full  cursor-pointer flex items-start"
     >
@@ -31,17 +33,17 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
           setIsHovered(false);
         }}
         id="image"
-        className="w-2/5 h-[95px] border rounded-md relative"
+        className="w-2/5 h-[95px]  rounded-md relative"
       >
         {isHovered ? (
           <PreviewVideo video={item} />
         ) : (
           <>
             <Image
-              className="w-full h-full rounded-md object-cover "
+              className="w-full h-full rounded-md"
               src={item.thumb}
-              height={5}
-              width={100}
+              height={50}
+              width={50}
               alt="image"
             />
             <span className="absolute bottom-2 right-1 text-[9px] p-1  bg-black/60 text-white font-[500] rounded-sm ">
