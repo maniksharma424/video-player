@@ -11,7 +11,9 @@ import { CircleUserRound } from "lucide-react";
 export default function Page({ params }: { params: { slug: string } }) {
   const currentVideo: Video | null =
     playlist.find((item) => item.id === params.slug) ?? null;
+
   const { isVideoLoaded } = useVideoPlayerContext();
+
   return (
     <div className="w-full h-screen flex flex-col sm:px-10 px-5">
       <Header />
