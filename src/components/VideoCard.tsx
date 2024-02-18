@@ -3,12 +3,12 @@ import { SetStateBoolean, Timeout, videoCard } from "@/types/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PreviewVideo from "./PreviewVideo";
-import { GripHorizontal, GripIcon } from "lucide-react";
+import { GripHorizontal } from "lucide-react";
 import { useVideoContext } from "@/providers/videoProvider";
 
 const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
   const { subtitle, title } = item;
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const router = useRouter();
   const timeoutRef = useRef<Timeout>();
   const { setShowPlayList }: { setShowPlayList: SetStateBoolean } =

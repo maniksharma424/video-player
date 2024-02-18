@@ -13,7 +13,6 @@ import React, {
   ReactNode,
   useContext,
   useRef,
-  useEffect,
   MutableRefObject,
 } from "react";
 import { useVideoContext } from "./videoProvider";
@@ -35,11 +34,11 @@ export const VideoPlayerProvider: React.FC<{ children: ReactNode }> = ({
     speed: 1,
     isMuted: false,
   });
-  const [volume, setVolume] = useState(1);
-  const [isFullscreenMode, setIsFullscreenMode] = useState(false);
-  const [showVolumeRange, setShowVolumeRange] = useState(false);
-  const [showPlaybackSpeed, setShowPlaybackSpeed] = useState(false);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [volume, setVolume] = useState<number>(1);
+  const [isFullscreenMode, setIsFullscreenMode] = useState<boolean>(false);
+  const [showVolumeRange, setShowVolumeRange] = useState<boolean>(false);
+  const [showPlaybackSpeed, setShowPlaybackSpeed] = useState<boolean>(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState<boolean>(false);
   const videoElement = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const playbackRef = useRef<HTMLDivElement>(null);

@@ -1,9 +1,7 @@
-import Header from "@/components/Header";
 import VideoCard from "@/components/VideoCard";
 import { useVideoContext } from "@/providers/videoProvider";
 import { Video } from "@/types/types";
-import { Grip, GripVertical } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import LoadingContainer from "./LoadingContainer";
 
 const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
@@ -52,33 +50,31 @@ const Page: React.FC<{ currentVideoId: string }> = ({ currentVideoId }) => {
   };
 
   return (
-
-      <div className="h-full w-full flex  flex-col justify-start  ">
-        <LoadingContainer loading={loading}>
-          {allVideos.map((item, index) => {
-            return (
+    <div className="h-full w-full flex  flex-col justify-start  ">
+      <LoadingContainer loading={loading}>
+        {allVideos.map((item, index) => {
+          return (
+            <div
+              key={item.id}
+              className={`my-2 ${currentVideoId === item.id && "hidden"}`}
+            >
               <div
-                key={item.id}
-                className={`my-2 ${currentVideoId === item.id && "hidden"}`}
+                draggable
+                onDragStart={(e) => {
+                  dragStart(index, e);
+                }}
+                onDragEnter={() => (draggedOverItem.current = index)}
+                onDragOver={(e) => handleDragOver(e)}
+                onDragEnd={(e) => handleDragEnd(e)}
+                className="flex items-center  rounded-lg max-h-32"
               >
-                <div
-                  draggable
-                  onDragStart={(e) => {
-                    dragStart(index, e);
-                  }}
-                  onDragEnter={() => (draggedOverItem.current = index)}
-                  onDragOver={(e) => handleDragOver(e)}
-                  onDragEnd={(e) => handleDragEnd(e)}
-                  className="flex items-center  rounded-lg max-h-32"
-                >
-                  <VideoCard item={item} />
-                </div>
+                <VideoCard item={item} />
               </div>
-            );
-          })}
-        </LoadingContainer>
-      </div>
-
+            </div>
+          );
+        })}
+      </LoadingContainer>
+    </div>
   );
 };
 

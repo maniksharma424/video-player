@@ -4,11 +4,11 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { useVideoContext } from "@/providers/videoProvider";
 import { SetStateBoolean } from "@/types/types";
-import Playlist from "@/components/Playlist";
+
 import ResponsivePlaylist from "./ResponsivePlaylist";
 import GithubIcon from "./GithubIcon";
 import Logo2 from "./Logo2";
-import { BookOpen, BookPlus } from "lucide-react";
+import { BookPlus } from "lucide-react";
 
 const Header: React.FC<{ slug: string }> = ({ slug }) => {
   const {

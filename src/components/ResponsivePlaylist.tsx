@@ -1,10 +1,8 @@
-import Header from "@/components/Header";
 import VideoCard from "@/components/VideoCard";
 import { useVideoContext } from "@/providers/videoProvider";
 import { SetStateBoolean, Video } from "@/types/types";
-import { Cross, Grip, GripVertical, X } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
-import LoadingContainer from "./LoadingContainer";
+import { X } from "lucide-react";
+import React from "react";
 
 const ResponsivePlaylist: React.FC<{
   currentVideoId: string;
