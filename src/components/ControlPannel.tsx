@@ -96,7 +96,7 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
             )}
             {showVolumeRange && (
               <input
-                className="cursor-pointer sm:block hidden"
+                className="cursor-pointer sm:block hidden animate-volume"
                 aria-label="Range for volume control"
                 type="range"
                 min="0"
@@ -118,6 +118,7 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
             />
             {showPlaybackSpeed && (
               <div
+                onClick={() => setShowPlaybackSpeed(false)}
                 ref={playbackRef}
                 className="velocity absolute min-w-fit h-fit p-3 bottom-12 right-[-20px] bg-black/70 rounded-md shadow-sm text-white"
               >
