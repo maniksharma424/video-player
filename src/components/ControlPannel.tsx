@@ -59,9 +59,9 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
             {formatTime(currentTime) === formatTime(duration) ? (
               <RotateCcw />
             ) : !playerState.isPlaying ? (
-              <Play fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />
+              <Play fill="white" className="sm:w-5 sm:h-5  w-3 h-3" />
             ) : (
-              <Pause fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />
+              <Pause fill="white" className="sm:w-5 sm:h-5  w-3 h-3" />
             )}
           </div>
           <div
@@ -72,7 +72,7 @@ const ControlPannel: React.FC<{ currentVideo: Video | null }> = ({
           >
             {<SkipForward fill="white" className="sm:w-6 sm:h-6  w-3 h-3" />}
           </div>
-          <span className="min-w-[120px] sm:text-[16px] text-[10px]">
+          <span className="sm:min-w-[80px] min-w-[50px] sm:text-[16px] text-[10px]">
             {formatTime(currentTime)}/{formatTime(duration)}
           </span>
 
