@@ -8,7 +8,7 @@ import React from "react";
 const page = () => {
   return (
     <div className="w-full h-full sm:px-10 sm:py-20 px-5 py-10 flex  flex-col justify-start items-center overflow-auto  ">
-      <div className="absolute px-8  top-0 left-0 w-full flex justify-center ">
+      <div className="absolute px-8 bg-white top-0 left-0 w-full flex justify-center ">
         <div className="w-4/5 py-3 border-b border-gray-200 flex justify-between items-center ">
           <div className="flex items-center">
             <Link
