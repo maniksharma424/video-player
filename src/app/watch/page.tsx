@@ -11,7 +11,6 @@ const Page = () => {
           "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         }
         className=" object-cover w-full h-full border-none"
-        controls
         autoPlay
         muted
       ></video>
