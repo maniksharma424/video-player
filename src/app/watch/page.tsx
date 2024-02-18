@@ -25,7 +25,8 @@ const Page = () => {
         <p>Enjoy limitless video options!</p>
         <Link
           href={"/watch/533-565-76788-75657"}
-          className=" w-1/2 mt-5 px-4 py-2 sm:text-[20px] text-[14px] text-gray-100 rounded-md  bg-gray-600/50 font-[200] hover:bg-gray-600/60 flex items-center justify-center"
+          aria-label="Home"
+          className=" w-1/2 mt-5 px-4 py-2 sm:text-[20px] text-[14px] text-gray-100 rounded-md  bg-black/60 font-[200] hover:bg-gray-300/60 flex items-center justify-center"
         >
           Get started <ChevronRight />
         </Link>

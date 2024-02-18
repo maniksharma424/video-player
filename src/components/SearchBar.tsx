@@ -8,7 +8,7 @@ const SearchBar = () => {
   const { showsearchModal, setshowSearchModal } = useVideoContext();
 
   return (
-    <div className="flex justify-start sm:w-1/3 w-5/6 pl-1 sm:pl-12">
+    <div className="flex justify-start sm:w-1/3 flex-1 pl-1 sm:pl-12">
       <div
         onClick={() => {
           setshowSearchModal((n) => !n);

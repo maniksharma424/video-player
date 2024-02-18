@@ -17,7 +17,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <div className="w-full h-screen flex flex-col sm:px-10 px-5">
       <Header slug={params.slug} />
-      <div className="flex-1 w-full  mt-2 flex sm:flex-row flex-col justify-start ">
+      <div className="flex-1 w-full  mt-2 flex sm:flex-row flex-col justify-start">
         <div className="sm:w-2/3  w-full sm:h-fit ">
           <VideoPlayer isPlaylistVideo currentVideo={currentVideo} />
           {isVideoLoaded && (

@@ -28,9 +28,9 @@ const SearchCard: React.FC<{ item: Video }> = ({ item }) => {
         </span>
       </div>
       <div id="info" className="w-1/2 ml-2 flex flex-col justify-start">
-        <p className="text-[16px] font-[500] leading-8 truncate">{title}</p>
+        <span className="w-2/3 truncate font-[600]">{title}</span>
 
-        <p className="text-[12px] font-[600] leading-8 text-gray-400 truncate">
+        <p className="text-[12px] w-fit px-2 font-[600] leading-8  truncate bg-gray-100 text-gray-600 rounded-md">
           {subtitle}
         </p>
       </div>
