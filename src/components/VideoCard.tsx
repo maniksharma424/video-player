@@ -52,7 +52,10 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
           </>
         )}
       </div>
-      <div id="info" className="w-1/2 ml-2 flex flex-col justify-start">
+      <div
+        id="info"
+        className="w-1/2 ml-2 flex flex-col justify-start overflow-hidden"
+      >
         <p className="text-[16px] font-[500] leading-8  w-full flex justify-between items-center">
           <span className="w-2/3 truncate font-[600]">{title}</span>
           <span>
@@ -60,7 +63,7 @@ const VideoCard: React.FC<{ item: videoCard }> = ({ item }) => {
           </span>
         </p>
 
-        <p className="text-[12px] w-fit px-2 font-[600] leading-8  truncate bg-gray-100 text-gray-600 rounded-md">
+        <p className="text-[12px]  max-w-4/5 w-fit px-2 font-[600] leading-8  truncate bg-gray-100 text-gray-600 rounded-md">
           {subtitle}
         </p>
       </div>
