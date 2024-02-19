@@ -1,4 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+<h1>Building a Video Player App with React</h1>
+I will explain the learnings and features i implemented while building the video player application using React.js. Along the way, I encountered some challenges and learned new things further enhancing my development skills.
+<h1>Interacting with Web APIs for video element</h1>
+While building the video player component, I got a chance to learn the behaviour for the video element and its associated JavaScript APIs. Used those to control various event in a video
+
+<h1>Autoplay Restrictions in Chrome</h1>
+One significant challenge I encountered was Chrome autoplay policy, which restricts autoplaying videos unless the user has interacted with the document first. To overcome this limitation, I implemented a workaround by requiring user interaction before initiating autoplay, unless an refresh is done by the user ensuring a seamless user experience across different browsers.
+
+<h1>Drag and Drop</h1>
+Implemented drag-and-drop functionality for reordering videos in the playlist Rather than using any external libraries, I learned React built-in APIs to create a seamless drag-and-drop experience. By utilizing useState and useRef hooks along with drag-and-drop events, I achieved a lightweight and efficient solution.
+
+<h1>Keyboard Shortcuts</h1>
+Enhanced user accessibility, I implemented keyboard shortcuts to control video events such as seek ,volume control resize and search shortcuts. Also handled edge cases and conflicts between the shortcuts to ensure a smooth experience .
+
+<h1>Lighthouse score</h1>
+<img src="https://i.imgur.com/8ckw33P.png"
+  height="800"
+  width="500"
+  alt="Light house score"/>
+<h1>Code Modularity</h1>
+Maintained a clean and organized codebase for ease of maintenance. I emphasized code modularity by breaking down the application into reusable components, custom hooks and providers to handle complex logic. By adhering to best practices and keeping file sizes in check, I ensured readability and maintainability throughout the development process.
+
+
 
 ## Getting Started
 
